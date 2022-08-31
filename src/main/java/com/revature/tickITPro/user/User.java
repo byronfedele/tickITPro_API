@@ -41,12 +41,12 @@ public class User {
 
     public User(NewUserRequest newUserRequest) {
 
-        this.userId = newUserRequest.getUserId();
+        this.userId = Long.toString(((long) (Math.random() * 10000000001L))) + fName.charAt(0) + lName.charAt(0);
         this.email = newUserRequest.getEmail();
         this.password = newUserRequest.getPassword();
         this.fName = newUserRequest.getFName();
         this.lName = newUserRequest.getLName();
         this.role = newUserRequest.getRole();
-        this.departmentId = newUserRequest.getDepartment();     // do not be confused here: departmentId is not the ID itself, but the whole Department
+//        this.departmentId = newUserRequest.getDepartment();     // do not be confused here: departmentId is not the ID itself, but the whole Department
     }
 }

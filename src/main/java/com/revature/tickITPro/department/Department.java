@@ -14,13 +14,13 @@ import javax.persistence.*;
 
 public class Department {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "department_id")
-    private int departmentId;           // we'll use auto ID here
-
-    @Column(name = "department_name")
-    private String departmentName;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "department_id")
+//    private int departmentId;           // we'll use auto ID here
+//
+//    @Column(name = "department_name")
+//    private String departmentName;
 
     // no need for anything here
 }
