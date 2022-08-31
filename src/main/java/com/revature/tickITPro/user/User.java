@@ -38,9 +38,10 @@ public class User {
     private Role role;       // this role is coming from the NewUserRequest (careful not to import Java's Role)
     @ManyToOne                              // think: Many users To One department (meaning 2 diff users can come from the same department)
     @JoinColumn(name = "department_id")
+
     private Department department;
 
-    public User(NewUserRequest newUserRequest, Department department) {
+    public User(NewUserRequest newUserRequest) {
         this.userId = newUserRequest.getUserId();
         this.email = newUserRequest.getEmail();
         this.password = newUserRequest.getPassword();
