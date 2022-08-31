@@ -40,7 +40,6 @@ public class User {
     private Department departmentId;
 
     public User(NewUserRequest newUserRequest) {
-
         this.userId = newUserRequest.getUserId();
         this.email = newUserRequest.getEmail();
         this.password = newUserRequest.getPassword();
