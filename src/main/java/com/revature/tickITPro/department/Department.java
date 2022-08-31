@@ -13,9 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "departments")
-
 public class Department {
-
     @Id
     @Column(nullable = false, name = "department_id")
     private String departmentId;
@@ -23,8 +21,8 @@ public class Department {
     @Column(nullable = false, name = "department_name")
     private String departmentName;
 
-    public Department(NewDepartmentRequest newDepartmentRequest) {
-        this.departmentId = UUID.randomUUID().toString();
-        this.departmentName = "";
+    public Department(NewDepartmentRequest newDepartment) {
+        this.departmentId = newDepartment.getId();
+        this.departmentName = newDepartment.getDepartmentName();
     }
 }
