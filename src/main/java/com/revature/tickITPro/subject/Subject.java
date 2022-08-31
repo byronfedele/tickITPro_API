@@ -22,7 +22,7 @@ public class Subject {
     @OneToMany(mappedBy = "subject_id", cascade= CascadeType.ALL)
     private List<Ticket> tickets;
     public Subject(NewSubjectRequest newSubjectRequest){
-        this.id = UUID.randomUUID().toString();
+        this.id = newSubjectRequest.getId();
         this.name= newSubjectRequest.getName();
     }
 }
