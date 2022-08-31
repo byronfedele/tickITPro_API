@@ -16,7 +16,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "departments")
 public class Department {
-
     @Id
     @Column(nullable = false, name = "department_id")
     private String departmentId;
