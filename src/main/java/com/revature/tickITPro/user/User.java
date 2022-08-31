@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Data                   // this takes care of toString(), hashCode, equals(), getters/setters
 @NoArgsConstructor      // takes care of no-arg constructor (do not have to specify it)
@@ -24,7 +25,7 @@ public class User {
     @Id
     @Column(name = "user_id")
     private String userId;
-    @Column(name = "work_email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
     @Column
     private String password;
@@ -34,19 +35,25 @@ public class User {
     private String lName;
     @Column
     @Enumerated(EnumType.STRING)
-    private NewUserRequest.Role role;       // this role is coming from the NewUserRequest (careful not to import Java's Role)
+    private Role role;       // this role is coming from the NewUserRequest (careful not to import Java's Role)
     @ManyToOne                              // think: Many users To One department (meaning 2 diff users can come from the same department)
     @JoinColumn(name = "department_id")
-    private Department departmentId;
+    private Department department;
 
-    public User(NewUserRequest newUserRequest) {
-
+    public User(NewUserRequest newUserRequest, Department department) {
         this.userId = newUserRequest.getUserId();
         this.email = newUserRequest.getEmail();
         this.password = newUserRequest.getPassword();
         this.fName = newUserRequest.getFName();
         this.lName = newUserRequest.getLName();
         this.role = newUserRequest.getRole();
-        this.departmentId = newUserRequest.getDepartment();     // do not be confused here: departmentId is not the ID itself, but the whole Department
+        this.department = department;
+    }
+
+    // public enums for roles
+    public enum Role{
+
+        ADMIN, USER, IT_PRO
+
     }
 }
