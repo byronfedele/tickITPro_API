@@ -1,10 +1,12 @@
 package com.revature.tickITPro.department;
 
+import com.revature.tickITPro.department.dto.request.NewDepartmentRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -15,12 +17,14 @@ import javax.persistence.*;
 public class Department {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "department_id")
-    private int departmentId;           // we'll use auto ID here
+    @Column(nullable = false, name = "department_id")
+    private String departmentId;
 
-    @Column(name = "department_name")
+    @Column(nullable = false, name = "department_name")
     private String departmentName;
 
-    // no need for anything here
+    public Department(NewDepartmentRequest newDepartmentRequest) {
+        this.departmentId = UUID.randomUUID().toString();
+        this.departmentName = "";
+    }
 }
