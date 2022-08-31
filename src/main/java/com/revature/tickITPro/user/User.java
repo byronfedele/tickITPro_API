@@ -1,6 +1,5 @@
 package com.revature.tickITPro.user;
 
-
 import com.revature.tickITPro.department.Department;
 import com.revature.tickITPro.user.dto.request.NewUserRequest;
 import lombok.AllArgsConstructor;

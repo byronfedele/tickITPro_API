@@ -11,5 +11,4 @@ public interface DepartmentRepository extends CrudRepository<Department, Integer
     // may need to be modified (it is taking a department name to find the department ID (not sure if it'll work)).
     @Query(value = "FROM Department WHERE department_name = :departmentName")
     Iterable<Department> findByDepartmentName(String departmentName);
-
 }
