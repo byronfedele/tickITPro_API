@@ -23,6 +23,4 @@ public class Department {
     private String departmentName;
 
     // no need for anything here
-
-
 }

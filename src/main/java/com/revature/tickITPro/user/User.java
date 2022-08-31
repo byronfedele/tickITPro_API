@@ -50,5 +50,4 @@ public class User {
         this.role = newUserRequest.getRole();
         this.departmentId = newUserRequest.getDepartment();     // do not be confused here: departmentId is not the ID itself, but the whole Department
     }
-
 }
