@@ -1,26 +1,28 @@
 package com.revature.tickITPro.department;
 
+import com.revature.tickITPro.department.dto.request.NewDepartmentRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "departments")
-
 public class Department {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "department_id")
-    private int departmentId;           // we'll use auto ID here
+    @Column(nullable = false, name = "department_id")
+    private String departmentId;
 
-    @Column(name = "department_name")
+    @Column(nullable = false, name = "department_name")
     private String departmentName;
 
-    // no need for anything here
+    public Department(NewDepartmentRequest newDepartment) {
+        this.departmentId = newDepartment.getId();
+        this.departmentName = newDepartment.getDepartmentName();
+    }
 }
