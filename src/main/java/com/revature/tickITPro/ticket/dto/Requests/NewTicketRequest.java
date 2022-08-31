@@ -12,7 +12,6 @@ public class NewTicketRequest {
     private String id;
     private String description;
     private String priority;
-
     private Date date;
 
 

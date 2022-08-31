@@ -18,7 +18,7 @@ import java.util.Date;
 public class Ticket {
     @Id
     @Column(name = "ticket_id")
-    private String id;
+    private String ticketId;
 
     @Column(name = "description")
     private String description;
@@ -47,7 +47,7 @@ public class Ticket {
     private Subject subjectId;
 
     public Ticket(NewTicketRequest newTicketRequest){
-        this.id = newTicketRequest.getId();
+        this.ticketId = newTicketRequest.getId();
         this.description = newTicketRequest.getDescription();
         this.priority = Priority.valueOf(newTicketRequest.getPriority().toUpperCase());
         this.status = Status.PENDING;
