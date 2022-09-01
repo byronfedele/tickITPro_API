@@ -20,7 +20,6 @@ public class DepartmentService {
 
 
     private final DepartmentRepository departmentRepository;
-//    private final DepartmentService departmentService;
 
     @Autowired
     public DepartmentService(DepartmentRepository departmentRepository) {
