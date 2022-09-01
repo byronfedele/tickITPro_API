@@ -6,11 +6,11 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 public class NewSubjectRequest {
-    private String id;
+    private String subjectId;
     private String name;
-    public NewSubjectRequest(String name) {
-        this.id = UUID.randomUUID().toString();
-        this.name=name;
+    public NewSubjectRequest(String subjectName) {
+        this.subjectId = UUID.randomUUID().toString();
+        this.name = subjectName;
     }
 }
 
