@@ -1,5 +1,6 @@
 package com.revature.tickITPro.ticket.dto.Requests;
 
+import com.revature.tickITPro.ticket.Ticket;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ public class NewTicketRequest {
     private String id;
     private String description;
     private String priority;
+    private Ticket.Status status;
     private Date date;
 
 
@@ -19,6 +21,7 @@ public class NewTicketRequest {
         this.id = UUID.randomUUID().toString();
         this.description = description;
         this.priority = priority;
+        this.status = status.PENDING;
         this.date = date;
     }
 }
