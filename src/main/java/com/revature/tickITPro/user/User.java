@@ -40,7 +40,8 @@ public class User {
     @JoinColumn(name = "department_id")
 
     private Department department;
-    public User(NewUserRequest newUserRequest, Department department) {
+
+    public User(NewUserRequest newUserRequest) {
         this.userId = newUserRequest.getUserId();
         this.email = newUserRequest.getEmail();
         this.password = newUserRequest.getPassword();

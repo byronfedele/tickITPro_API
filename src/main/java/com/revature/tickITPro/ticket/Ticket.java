@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "ticket")
+@Table(name = "tickets")
 public class Ticket {
     @Id
     @Column(name = "ticket_id")
@@ -63,6 +63,5 @@ public class Ticket {
     public enum Status{
         PENDING, CONFIRMED, IN_PROGRESS, RESOLVED
     }
-
 
 }
