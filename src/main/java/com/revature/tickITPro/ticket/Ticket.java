@@ -50,7 +50,7 @@ public class Ticket {
         this.ticketId = newTicketRequest.getId();
         this.description = newTicketRequest.getDescription();
         this.priority = Priority.valueOf(newTicketRequest.getPriority().toUpperCase());
-        this.status = Status.PENDING;
+        this.status = newTicketRequest.getStatus();
         this.date = newTicketRequest.getDate();
     }
 
