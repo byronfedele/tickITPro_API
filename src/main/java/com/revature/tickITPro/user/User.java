@@ -38,8 +38,7 @@ public class User {
     private Role role;       // this role is coming from the NewUserRequest (careful not to import Java's Role)
     @ManyToOne                              // think: Many users To One department (meaning 2 diff users can come from the same department)
     @JoinColumn(name = "department_id")
-
-    private Department department;
+    private Department departmentId;
 
     public User(NewUserRequest newUserRequest) {
         this.userId = newUserRequest.getUserId();
@@ -48,7 +47,6 @@ public class User {
         this.fName = newUserRequest.getFName();
         this.lName = newUserRequest.getLName();
         this.role = newUserRequest.getRole();
-        this.department = department;
     }
 
     // public enums for roles
