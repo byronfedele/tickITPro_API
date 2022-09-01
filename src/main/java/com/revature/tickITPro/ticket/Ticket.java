@@ -64,5 +64,4 @@ public class Ticket {
         PENDING, CONFIRMED, IN_PROGRESS, RESOLVED
     }
 
-
 }
