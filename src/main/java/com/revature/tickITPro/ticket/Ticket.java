@@ -40,7 +40,7 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "pro_user_id")
-    private User proUser;
+    private User proUserId;
 
     @ManyToOne
     @JoinColumn(name = "subject_id")
