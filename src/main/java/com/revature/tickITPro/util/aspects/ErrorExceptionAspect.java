@@ -1,6 +1,6 @@
 package com.revature.tickITPro.util.aspects;
 
-import com.revature.tickITPro.util.exceptions.InvalidUserException;
+import com.revature.tickITPro.util.exceptions.InvalidUserInputException;
 import com.revature.tickITPro.util.exceptions.ResourceNotFoundException;
 import com.revature.tickITPro.util.exceptions.ResourcePersistanceException;
 import com.revature.tickITPro.util.exceptions.UnauthorizedException;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ErrorExceptionAspect {
-    @ExceptionHandler({InvalidUserException.class, ResourcePersistanceException.class})
+    @ExceptionHandler({InvalidUserInputException.class, ResourcePersistanceException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public String handleBadRequest(Exception e){
         return "Exception thrown... " + e.getClass().getName() + " " + e.getMessage();
