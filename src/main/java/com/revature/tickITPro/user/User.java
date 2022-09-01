@@ -41,7 +41,8 @@ public class User {
 
     private Department department;
 
-    public User(NewUserRequest newUserRequest) {
+    public User(NewUserRequest newUserRequest, Department department) {
+
         this.userId = newUserRequest.getUserId();
         this.email = newUserRequest.getEmail();
         this.password = newUserRequest.getPassword();
@@ -50,11 +51,8 @@ public class User {
         this.role = newUserRequest.getRole();
         this.department = department;
     }
-
     // public enums for roles
     public enum Role{
-
         ADMIN, USER, IT_PRO
-
     }
 }
