@@ -40,7 +40,6 @@ public class User {
     @JoinColumn(name = "department_id")
 
     private Department department;
-
     public User(NewUserRequest newUserRequest, Department department) {
         this.userId = newUserRequest.getUserId();
         this.email = newUserRequest.getEmail();
@@ -50,11 +49,8 @@ public class User {
         this.role = newUserRequest.getRole();
         this.department = department;
     }
-
     // public enums for roles
     public enum Role{
-
         ADMIN, USER, IT_PRO
-
     }
 }
