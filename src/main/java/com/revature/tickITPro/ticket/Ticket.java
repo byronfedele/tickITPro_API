@@ -57,7 +57,7 @@ public class Ticket {
 
 
     public enum Priority{
-        DEFAULT, LOW_PRIORITY,HIGH_PRIORITY
+        LOW_PRIORITY,DEFAULT,HIGH_PRIORITY
     }
 
     public enum Status{
