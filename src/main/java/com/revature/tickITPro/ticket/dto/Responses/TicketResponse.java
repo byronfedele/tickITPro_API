@@ -27,7 +27,7 @@ public class TicketResponse {
         this.status = ticket.getStatus();
         this.date = ticket.getDate();
         this.userId = ticket.getUserId();
-        this.proId = ticket.getProUser();
+        this.proId = ticket.getProUserId();
         this.subjectId = ticket.getSubjectId();
     }
 }

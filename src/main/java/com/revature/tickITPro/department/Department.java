@@ -23,7 +23,7 @@ public class Department {
     @Column(nullable = false, name = "department_name")
     private String departmentName;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy="departmentId", cascade = CascadeType.ALL)
     private List<User> userList;
 
     public Department(NewDepartmentRequest newDepartment) {
