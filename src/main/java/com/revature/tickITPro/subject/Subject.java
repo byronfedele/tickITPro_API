@@ -16,13 +16,13 @@ import com.revature.tickITPro.ticket.Ticket;
 public class Subject {
     @Id
     @Column(name = "subject_id", nullable = false, unique = true)
-    private String id;
+    private String subjectId;
     @Column(name="subject_name", nullable = false, unique = true)
     private String name;
-    @OneToMany(mappedBy = "subject_id", cascade= CascadeType.ALL)
-    private List<Ticket> tickets;
+    @OneToMany(mappedBy = "subjectId", cascade= CascadeType.ALL)
+    private List<Ticket> ticketList;
     public Subject(NewSubjectRequest newSubjectRequest){
-        this.id = newSubjectRequest.getId();
+        this.subjectId = newSubjectRequest.getSubjectId();
         this.name= newSubjectRequest.getName();
     }
 }
