@@ -48,7 +48,8 @@ public class User {
     @OneToMany(mappedBy="proUserId", cascade = CascadeType.ALL)
     private List<Ticket> confirmedTicketList;
 
-    public User(NewUserRequest newUserRequest) {
+    public User(NewUserRequest newUserRequest, Department department) {
+
         this.userId = newUserRequest.getUserId();
         this.email = newUserRequest.getEmail();
         this.password = newUserRequest.getPassword();
@@ -56,11 +57,8 @@ public class User {
         this.lName = newUserRequest.getLName();
         this.role = newUserRequest.getRole();
     }
-
     // public enums for roles
     public enum Role{
-
         ADMIN, USER, IT_PRO
-
     }
 }
