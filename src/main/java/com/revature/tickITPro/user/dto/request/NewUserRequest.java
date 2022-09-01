@@ -21,9 +21,7 @@ public class NewUserRequest {
 
 //    @Pattern(message = "Minimum eight characters, at least one letter, one number and one special character",regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")
     private String password;
-    private String department;
     private User.Role role;
-    private DepartmentRepository departmentRepository;
 
     public NewUserRequest(String fName, String lName, String email, String password) {
         this.userId = UUID.randomUUID().toString();
@@ -31,7 +29,6 @@ public class NewUserRequest {
         this.lName = lName;
         this.email = email;
         this.password = password;
-        this.department = "";
         this.role = User.Role.USER;
     }
 }

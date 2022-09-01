@@ -48,7 +48,7 @@ public class User {
     @OneToMany(mappedBy="proUserId", cascade = CascadeType.ALL)
     private List<Ticket> confirmedTicketList;
 
-    public User(NewUserRequest newUserRequest, Department department) {
+    public User(NewUserRequest newUserRequest) {
 
         this.userId = newUserRequest.getUserId();
         this.email = newUserRequest.getEmail();

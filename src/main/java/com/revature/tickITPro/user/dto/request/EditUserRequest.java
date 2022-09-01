@@ -12,7 +12,7 @@ public class EditUserRequest extends EditResourceRequest {
     private String password;
     private String fName;
     private String lName;
-    private String role;               // user should be able to update their roles
+    private String role;               // admin should be able to update user roles
     private String departmentId;
 
 }
