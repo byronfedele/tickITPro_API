@@ -11,7 +11,7 @@ public class SubjectResponse {
     private String name;
 
     public SubjectResponse(Subject subject){
-        this.id= subject.getId();
-        this.name=subject.getName();
+        this.id = subject.getSubjectId();
+        this.name = subject.getName();
     }
 }
