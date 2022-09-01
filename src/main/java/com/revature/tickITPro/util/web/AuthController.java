@@ -24,7 +24,7 @@ public class AuthController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void authorizeUser(@RequestBody LoginCreds loginCreds, HttpSession httpSession){
+    public void authorizeUser(LoginCreds loginCreds, HttpSession httpSession){
         User authUser = userService.login(loginCreds.getEmail(),  loginCreds.getPassword());
         httpSession.setAttribute("authUser", authUser);
     }
