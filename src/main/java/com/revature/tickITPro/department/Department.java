@@ -27,7 +27,7 @@ public class Department {
     private List<User> userList;
 
     public Department(NewDepartmentRequest newDepartment) {
-        this.departmentId = newDepartment.getId();
+        this.departmentId = newDepartment.getDepartmentId();
         this.departmentName = newDepartment.getDepartmentName();
     }
 }

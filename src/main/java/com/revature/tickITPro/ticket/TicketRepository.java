@@ -8,8 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface TicketRepository extends CrudRepository<Ticket, String> {
-    @Query(value = "FROM Ticket where ticket_id= :ticketId")
-    Optional<Ticket> findByTicketId(String ticketId);
 
     @Query(value = "FROM Ticket where req_user_id= :userId ORDER BY submission_date")
     Iterable<Ticket> findByUserId(String userId);
