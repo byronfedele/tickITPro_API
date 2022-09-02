@@ -3,8 +3,6 @@ import com.revature.tickITPro.subject.SubjectService;
 import com.revature.tickITPro.ticket.dto.Requests.NewTicketRequest;
 import com.revature.tickITPro.ticket.dto.Responses.TicketResponse;
 import com.revature.tickITPro.user.UserService;
-import com.revature.tickITPro.subject.SubjectService;
-
 import com.revature.tickITPro.util.exceptions.InvalidUserInputException;
 import com.revature.tickITPro.util.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
@@ -38,7 +37,7 @@ public boolean isTicketValid(Ticket newTicket){ //What is this for?
     return true;
 }
 @Transactional
-public TicketResponse addTicket(NewTicketRequest ticketRequest) throws InvalidUserException {
+public TicketResponse addTicket(NewTicketRequest ticketRequest) throws InvalidUserInputException {
     areEnumsValid(ticketRequest);
     Ticket newTicket= new Ticket(ticketRequest);
     return new TicketResponse((ticketRepository.save(newTicket)));
@@ -79,11 +78,37 @@ public List<TicketResponse> findAllTickets(){
 
 
     //findByPriority
-    //findBySubject
-    //update
-    //delete
+    @Transactional
+    public List<TicketResponse> findByPriority(Ticket.Priority priority){
+        return ((Collection<Ticket>) ticketRepository.findByPriority(priority)).stream().map(TicketResponse::new).collect(Collectors.toList());
+    }
+    //findByStatus
+    @Transactional
+    public List<TicketResponse> findByStatus(Ticket.Status status){
+        return ((Collection<Ticket>) ticketRepository.findByStatus(status)).stream().map(TicketResponse::new).collect(Collectors.toList());
+    }
 
-    public boolean areEnumsValid(NewTicketRequest ticketRequest)throws InvalidUserInputException{
+    //findBySubject
+    //when given the iterator, you can not throw exception
+    @Transactional
+    public TicketResponse findBySubjectId(String subjectId){
+    Ticket ticket = ticketRepository.findBySubjectId(subjectId).orElseThrow(ResourceNotFoundException::new);
+    TicketResponse ticketResponse = new TicketResponse(ticket);
+    return ticketResponse;
+    }
+    //update
+    public Ticket update(Ticket updateTicket){
+    ticketRepository.save(updateTicket);
+    return updateTicket;
+    }
+
+    //delete
+    public boolean delete(String id){
+    ticketRepository.deleteById(id);
+    return true;
+    }
+
+    public boolean areEnumsValid(NewTicketRequest ticketRequest)throws InvalidUserInputException {
         List<String> priorityEnums = Arrays.asList("DEFAULT","LOW_PRIORITY","HIGH_PRIORITY");
         List<String> statusEnums = Arrays.asList("PENDING","CONFIRMED","IN_PROGRESS","RESOLVED");
         List<Boolean> checkPriorityEnums = priorityEnums.stream().map(str -> str.equals(ticketRequest.getPriority().toUpperCase())).collect(Collectors.toList());
