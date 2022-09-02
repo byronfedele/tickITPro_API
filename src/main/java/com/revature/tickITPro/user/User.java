@@ -57,6 +57,11 @@ public class User {
         this.lName = newUserRequest.getLName();
         this.role = newUserRequest.getRole();
     }
+    public User(String userId,String email, Role role) {
+        this.userId = userId;
+        this.email = email;
+        this.role = role;
+    }
     // public enums for roles
     public enum Role{
         ADMIN, USER, IT_PRO
