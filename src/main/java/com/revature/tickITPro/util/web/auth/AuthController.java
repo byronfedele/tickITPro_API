@@ -3,7 +3,7 @@ package com.revature.tickITPro.util.web.auth;
 
 import com.revature.tickITPro.user.User;
 import com.revature.tickITPro.user.UserService;
-import com.revature.tickITPro.util.web.auth.dto.LoginCreds;
+import com.revature.tickITPro.util.web.auth.dto.request.LoginCreds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

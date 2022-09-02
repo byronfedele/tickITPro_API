@@ -1,4 +1,4 @@
-package com.revature.tickITPro.util.web.auth.dto;
+package com.revature.tickITPro.util.web.auth.dto.request;
 
 public abstract class EditResourceRequest {
 
