@@ -6,6 +6,7 @@ import com.revature.tickITPro.user.UserService;
 import com.revature.tickITPro.subject.SubjectService;
 
 import com.revature.tickITPro.util.exceptions.InvalidUserException;
+import com.revature.tickITPro.util.exceptions.InvalidUserInputException;
 import com.revature.tickITPro.util.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

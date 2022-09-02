@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
+@CrossOrigin(exposedHeaders = "Authorization")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
