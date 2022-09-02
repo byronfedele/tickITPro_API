@@ -9,8 +9,7 @@ import java.util.Optional;
 @Repository
 public interface DepartmentRepository extends CrudRepository<Department, String> {
 
-    // this method was TEMPORARILY created just to call it in the NewUserRequest (see that class).
-    // may need to be modified (it is taking a department name to find the department ID (not sure if it'll work)).
+    // this method takes in a department name, returns a Department (both name and id)
     @Query(value = "FROM Department WHERE department_name = :departmentName")
     Optional<Department> findByDepartmentName(String departmentName);
 }
