@@ -1,6 +1,6 @@
 package com.revature.tickITPro.ticket.dto.Requests;
 
-import com.revature.tickITPro.util.web.dto.EditResourceRequest;
+import com.revature.tickITPro.util.web.auth.dto.EditResourceRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

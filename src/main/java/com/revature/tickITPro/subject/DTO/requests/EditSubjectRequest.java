@@ -1,6 +1,5 @@
 package com.revature.tickITPro.subject.DTO.requests;
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.revature.tickITPro.util.web.dto.EditResourceRequest;
+import com.revature.tickITPro.util.web.auth.dto.EditResourceRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

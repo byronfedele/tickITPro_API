@@ -1,4 +1,4 @@
-package com.revature.tickITPro.util.web.dto;
+package com.revature.tickITPro.util.web.auth.dto;
 
 public class LoginCreds {
     private String email;
