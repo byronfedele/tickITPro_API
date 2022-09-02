@@ -1,5 +1,6 @@
 package com.revature.tickITPro.util.web.auth;
 
+import com.revature.tickITPro.util.exceptions.UnauthorizedException;
 import com.revature.tickITPro.util.web.auth.dto.response.Principal;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -22,10 +23,15 @@ public class TokenValidator {
                     .setSigningKey(jwtConfig.getSigningKey())
                     .parseClaimsJws(token)
                     .getBody();
-            return Optional.of(new Principal())
+            return Optional.of(new Principal(claims.getId(), claims.getSubject(), claims.get("isAdmin",Boolean.class)));
 
-        } catch () {
-
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new UnauthorizedException(e.getMessage());
         }
+    }
+
+    public int getDefaultTokenExpiry() {
+        return jwtConfig.getExpiration();
     }
 }
