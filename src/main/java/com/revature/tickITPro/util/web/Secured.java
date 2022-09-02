@@ -6,6 +6,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Secured {
     boolean isAdmin() default false;
+    boolean isITPro() default false;
     boolean isLoggedIn() default true;
     String[] allowedUsers() default {};
 }
