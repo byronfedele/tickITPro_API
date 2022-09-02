@@ -54,12 +54,12 @@ public class Principal {
         return isITPro;
     }
 
-    public void setITPro(boolean ITPro) {
-        isITPro = ITPro;
+    public void setITPro(boolean isITPro) {
+        this.isITPro = isITPro;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     public User extractUser() {

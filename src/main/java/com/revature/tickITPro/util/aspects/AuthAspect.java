@@ -44,6 +44,7 @@ public class AuthAspect {
                 .getHeader("Authorization");
         if (!tokenService.isTokenValid(token)) throw new UnauthorizedException("No Authorization token found");
         if (annotation.isAdmin() && !tokenService.extractTokenDetails(token).isAdmin()) throw new UnauthorizedException("Authorized Token is not an Admin, please login with an Admin account to perform this request");
+        if (annotation.isITPro() && !tokenService.extractTokenDetails(token).isITPro()) throw new UnauthorizedException("Authorized Token is not an ITPro, please login with an ITPro account to perform this request");
 
         // List<String> allowedUsers = Arrays.asList(annotation.allowedUsers());
         // HttpSession session = req.getSession(false);

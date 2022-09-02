@@ -38,8 +38,8 @@ public class AuthController {
     }
 
     @DeleteMapping
-    public void logout(HttpSession httpSession){
-        httpSession.invalidate();
+    public void logout(HttpServletResponse resp){
+        resp.setHeader("Authorization",null);
     }
 
 }
