@@ -14,13 +14,25 @@ public class UserServiceTestSuite {
     @InjectMocks
     UserService userService;
 
-    @Test
-    public boolean test_isUserValid_returnTrue_givenValidUser() {
+    // TODO: These Methods
+    // @Test
+    // public void test_isUserValid_returnTrue_givenValidUser() {
 
-    }
+    // }
 
-    @Test
-    public boolean test_isUserValid_returnTrue_givenValidUser() {
+    // @Test
+    // public boolean test_isUserValid_returnTrue_givenValidUser() {
 
-    }
+    // }
+
+    // @Test
+    // public void test_registerUser_returnsUserResponse_givenValidNewUserRequest() {
+
+    // }
+
+    // @Test
+    // public void test_registerUser_throwsInvalidUserException_givenInvalidNewUserRequest() {
+
+    // }
+
 }
