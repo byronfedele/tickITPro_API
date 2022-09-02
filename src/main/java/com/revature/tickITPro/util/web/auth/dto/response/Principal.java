@@ -12,18 +12,18 @@ public class Principal {
     @NotBlank
     private String email;
 
-    private User.Role role;
+    private boolean isAdmin;
 
     public Principal() {}
     public Principal(User authUser) {
         this.id = authUser.getUserId();
         this.email = authUser.getEmail();
-        this.role = authUser.getRole();
+        this.isAdmin = authUser.getRole().equals(User.Role.ADMIN);
     }
-    public Principal(String id, String email, User.Role role) {
+    public Principal(String id, String email, boolean isAdmin) {
         this.id = id;
         this.email = email;
-        this.role = role;
+        this.isAdmin = isAdmin;
     }
 
     public String getId() {
@@ -42,16 +42,12 @@ public class Principal {
         this.email = email;
     }
 
-    public User.Role getRole() {
-        return role;
-    }
-
-    public void setRole(User.Role role) {
-        this.role = role;
-    }
-
     public boolean isAdmin() {
-        return role.equals(User.Role.ADMIN);
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public User extractUser() {
@@ -63,7 +59,7 @@ public class Principal {
         return "Principal{" +
                 "id='" + id + '\'' +
                 ", email='" + email + '\'' +
-                ", role=" + role +
+                ", isAdmin=" + isAdmin +
                 '}';
     }
 }
