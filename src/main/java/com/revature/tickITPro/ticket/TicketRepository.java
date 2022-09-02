@@ -24,5 +24,5 @@ public interface TicketRepository extends CrudRepository<Ticket, String> {
     Iterable<Ticket> findByPriority(Ticket.Priority priority);
 
     @Query(value = "FROM Ticket where status= :status ORDER BY submission_date")
-    Iterable<Ticket> findByPriority(Ticket.Status status);
+    Iterable<Ticket> findByStatus(Ticket.Status status);
 }
