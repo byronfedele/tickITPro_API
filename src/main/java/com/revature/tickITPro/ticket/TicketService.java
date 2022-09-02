@@ -5,7 +5,7 @@ import com.revature.tickITPro.ticket.dto.Responses.TicketResponse;
 import com.revature.tickITPro.user.UserService;
 import com.revature.tickITPro.subject.SubjectService;
 
-import com.revature.tickITPro.util.exceptions.InvalidUserException;
+
 import com.revature.tickITPro.util.exceptions.InvalidUserInputException;
 import com.revature.tickITPro.util.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public boolean isTicketValid(Ticket newTicket){ //What is this for?
     return true;
 }
 @Transactional
-public TicketResponse addTicket(NewTicketRequest ticketRequest) throws InvalidUserException {
+public TicketResponse addTicket(NewTicketRequest ticketRequest) throws InvalidUserInputException {
     areEnumsValid(ticketRequest);
     Ticket newTicket= new Ticket(ticketRequest);
     return new TicketResponse((ticketRepository.save(newTicket)));
