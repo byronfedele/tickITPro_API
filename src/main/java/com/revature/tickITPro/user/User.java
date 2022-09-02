@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.UUID;
 
 @Data                   // this takes care of toString(), hashCode, equals(), getters/setters
 @NoArgsConstructor      // takes care of no-arg constructor (do not have to specify it)
@@ -42,10 +41,12 @@ public class User {
     @JoinColumn(name = "department_id")
     private Department departmentId;
     // list of tickets that this user created (regular users)
-    @OneToMany(mappedBy="userId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Transient
     private List<Ticket> createdTicketList;
     // list of tickets that this user confirmed (ITPro users)
-    @OneToMany(mappedBy="proUserId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="proUserId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Transient
     private List<Ticket> confirmedTicketList;
 
     public User(NewUserRequest newUserRequest) {
