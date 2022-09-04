@@ -1,5 +1,6 @@
 package com.revature.tickITPro.user;
 
+import com.revature.tickITPro.department.DepartmentService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
@@ -11,6 +12,9 @@ public class UserServiceTestSuite {
     @Mock
     UserRepository userRepository;
 
+    @Mock
+    DepartmentService departmentService;
+
     @InjectMocks
     UserService userService;
 
@@ -20,7 +24,7 @@ public class UserServiceTestSuite {
     }
 
     // @Test
-    // public boolean test_isUserValid_returnTrue_givenValidUser() {
+    // public boolean test_isUserValid_throwInvalidUserInputException_givenValidUser() {
 
     // }
 
