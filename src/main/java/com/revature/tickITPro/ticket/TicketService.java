@@ -54,7 +54,7 @@ public List<TicketResponse> findAllTickets(){
 }
 @Transactional(readOnly = true)
     public TicketResponse findById(String ticketId){
-    Ticket ticket = ticketRepository.findByTicketId(ticketId).orElseThrow(ResourceNotFoundException::new);
+    Ticket ticket = ticketRepository.findById(ticketId).orElseThrow(ResourceNotFoundException::new);
     TicketResponse ticketResponse = new TicketResponse(ticket);
     return ticketResponse;
 }
@@ -93,10 +93,8 @@ public List<TicketResponse> findAllTickets(){
     //findBySubject
     //when given the iterator, you can not throw exception
     @Transactional
-    public TicketResponse findBySubjectId(String subjectId){
-    Ticket ticket = ticketRepository.findBySubjectId(subjectId).orElseThrow(ResourceNotFoundException::new);
-    TicketResponse ticketResponse = new TicketResponse(ticket);
-    return ticketResponse;
+    public List<TicketResponse> findBySubjectId(String subjectId){
+        return ((Collection<Ticket>) ticketRepository.findBySubjectId(subjectId)).stream().map(TicketResponse::new).collect(Collectors.toList());
     }
     //update
     public Ticket update(Ticket updateTicket){

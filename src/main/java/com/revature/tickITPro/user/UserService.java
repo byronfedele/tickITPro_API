@@ -35,6 +35,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserResponse registerUser(NewUserRequest newUserRequest) throws InvalidUserInputException, ResourcePersistanceException {
         User newUser = new User(newUserRequest);
+        newUser.setDepartmentId(departmentService.getDepartment(newUserRequest.getDepartmentId()));
         isUserValid(newUser);
         isEmailAvailable(newUserRequest.getEmail());
         return new UserResponse(userRepository.save(newUser));
@@ -96,9 +97,9 @@ public class UserService {
         }
     }
 
-    public boolean areEnumsValid(NewUserRequest userRequest)throws InvalidUserInputException {
+    public boolean areEnumsValid(User user)throws InvalidUserInputException {
         List<String> roleEnums = Arrays.asList("ADMIN", "USER", "IT_PRO");
-        List<Boolean> checkRoleEnums = roleEnums.stream().map(str -> str.equals(userRequest.getRole().toString())).collect(Collectors.toList());
+        List<Boolean> checkRoleEnums = roleEnums.stream().map(str -> str.equals(user.getRole().toString())).collect(Collectors.toList());
         if(!checkRoleEnums.contains(true)){
             throw new InvalidUserInputException(
                     "Role was not a valid entry please try the following : " +
@@ -116,7 +117,7 @@ public class UserService {
         if (!notNullOrEmpty.test(testUser.getEmail())) throw new InvalidUserInputException("Inputted email was empty or null");
         if (!notNullOrEmpty.test(testUser.getFName())) throw new InvalidUserInputException("Inputted first name was empty or null");
         if (!notNullOrEmpty.test(testUser.getLName())) throw new InvalidUserInputException("Inputted last name was empty or null");
-        if (!notNullOrEmpty.test(testUser.getPassword())) throw new InvalidUserInputException("Inputted password was empty or null"));
+        if (!notNullOrEmpty.test(testUser.getPassword())) throw new InvalidUserInputException("Inputted password was empty or null");
         return true;
     }
 }

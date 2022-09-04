@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Data                   // this takes care of toString(), hashCode, equals(), getters/setters
 @NoArgsConstructor      // takes care of no-arg constructor (do not have to specify it)
@@ -28,13 +29,13 @@ public class User {
     private String userId;
     @Column(name = "email", nullable = false, unique = true)
     private String email;
-    @Column
+    @Column(name = "password")
     private String password;
     @Column(name = "f_name")
     private String fName;
     @Column(name = "l_name")
     private String lName;
-    @Column
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;       // this role is coming from the NewUserRequest (careful not to import Java's Role)
     @ManyToOne                              // think: Many users To One department (meaning 2 diff users can come from the same department)
@@ -50,13 +51,12 @@ public class User {
     private List<Ticket> confirmedTicketList;
 
     public User(NewUserRequest newUserRequest) {
-
-        this.userId = newUserRequest.getUserId();
+        this.userId = UUID.randomUUID().toString();
         this.email = newUserRequest.getEmail();
         this.password = newUserRequest.getPassword();
         this.fName = newUserRequest.getFName();
         this.lName = newUserRequest.getLName();
-        this.role = newUserRequest.getRole();
+        this.role = Role.USER;
     }
     public User(String userId,String email, Role role) {
         this.userId = userId;
