@@ -56,6 +56,12 @@ public class DepartmentService {
         return departmentResponse;
     }
 
+    @Transactional(readOnly = true)
+    public Department getDepartment(String departmentId) {
+        Department department = departmentRepository.findById(departmentId).orElseThrow(ResourceNotFoundException::new);
+        return department;
+    }
+
     @Transactional
     public void remove(String departmentId) {
         departmentRepository.deleteById(departmentId);

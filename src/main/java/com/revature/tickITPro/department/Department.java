@@ -24,10 +24,11 @@ public class Department {
     private String departmentName;
 
     @OneToMany(mappedBy="departmentId", cascade = CascadeType.ALL)
+    @Transient
     private List<User> userList;
 
     public Department(NewDepartmentRequest newDepartment) {
-        this.departmentId = newDepartment.getDepartmentId();
+        this.departmentId = UUID.randomUUID().toString();
         this.departmentName = newDepartment.getDepartmentName();
     }
 }
