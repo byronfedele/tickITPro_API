@@ -83,4 +83,16 @@ public class UserService {
             updateUser.setEmail(editUser.getEmail());
         }
     }
+
+    public boolean isUserValid(User testUser) {
+        Predicate<String> notNullOrEmpty = (str) -> str != null && !str.trim().equals("");
+        return (testUser != null &&
+                testUser.getDepartmentId() != null &&
+                notNullOrEmpty.test(testUser.getUserId()) &&
+                notNullOrEmpty.test(testUser.getEmail()) &&
+                notNullOrEmpty.test(testUser.getFName()) &&
+                notNullOrEmpty.test(testUser.getLName()) &&
+                notNullOrEmpty.test(testUser.getPassword()) &&
+                notNullOrEmpty.test(testUser.getRole().toString()));
+    }
 }
