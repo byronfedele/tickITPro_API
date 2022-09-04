@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface TicketRepository extends CrudRepository<Ticket, String> {
 
     @Query(value = "FROM Ticket where req_user_id= :userId ORDER BY submission_date")
-    Iterable<Ticket> findByUserId(String userId);
+    Optional<Ticket> findByUserId(String userId);
 
     @Query(value = "FROM Ticket where pro_user_id= :proUserId ORDER BY submission_date")
     Iterable<Ticket> findByITProId(String proUserId);
