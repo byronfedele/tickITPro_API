@@ -1,6 +1,6 @@
 package com.revature.tickITPro.user;
 
-import com.revature.tickITPro.department.DepartmentService;
+import com.revature.tickITPro.department.DepartmentRepository;
 import com.revature.tickITPro.user.dto.request.EditUserRequest;
 import com.revature.tickITPro.user.dto.request.NewUserRequest;
 import com.revature.tickITPro.user.dto.response.UserResponse;
@@ -21,11 +21,12 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-//    private final DepartmentService departmentService;
+    private final DepartmentRepository departmentRepository; // in order to make updating department for a user possible (see line 81)
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, DepartmentRepository departmentRepository) {
         this.userRepository = userRepository;
+        this.departmentRepository = departmentRepository;
     }
 
     @Transactional(readOnly = true)
@@ -77,7 +78,7 @@ public class UserService {
         if (notNullOrEmpty.test(editUser.getLName())) updateUser.setLName(editUser.getLName());
         if (notNullOrEmpty.test(editUser.getPassword())) updateUser.setPassword(editUser.getPassword());
         if(notNullOrEmpty.test(editUser.getRole())) updateUser.setRole(User.Role.valueOf(editUser.getRole()));
-//        if(notNullOrEmpty.test(editUser.getDepartmentId())) updateUser.setDepartmentId(editUser.getDepartmentId());  // waiting for findByDepartmentId from DeparmentSevice
+        if(notNullOrEmpty.test(editUser.getDepartmentId())) updateUser.setDepartmentId(departmentRepository.findById(editUser.getDepartmentId()).orElseThrow(ResourceNotFoundException::new));  // this is to return department by department id since findById returns optional
         if (notNullOrEmpty.test(editUser.getEmail())) {
             isEmailAvailable(editUser.getEmail());
             updateUser.setEmail(editUser.getEmail());

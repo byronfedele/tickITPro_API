@@ -21,7 +21,6 @@ public class User {
     // This class represents the model for users
     // All users will have the following attributes
     // User types will be differentiated based on their roles
-    // ID will be generated from a combo of random numbers and users' initials
 
     @Id
     @Column(name = "user_id")
@@ -36,7 +35,7 @@ public class User {
     private String lName;
     @Column
     @Enumerated(EnumType.STRING)
-    private Role role;       // this role is coming from the NewUserRequest (careful not to import Java's Role)
+    private Role role;       // this role is coming from our Role Enum  (careful not to import Java's Role)
     @ManyToOne                              // think: Many users To One department (meaning 2 diff users can come from the same department)
     @JoinColumn(name = "department_id")
     private Department departmentId;
