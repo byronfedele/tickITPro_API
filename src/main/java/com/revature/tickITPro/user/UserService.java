@@ -25,6 +25,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final DepartmentService departmentService;
+    private User sessionUser;
 
     @Autowired
     public UserService(UserRepository userRepository, DepartmentService departmentService) {
@@ -51,7 +52,13 @@ public class UserService {
     @Transactional
     public User login(String email, String password){
         User user = userRepository.loginCredentialCheck(email, password).orElseThrow(ResourceNotFoundException::new);
+        setSessionUser(user);
         return user;
+    }
+
+    @Transactional
+    public void logout(){
+        setSessionUser(null);
     }
 
     @Transactional(readOnly = true)
@@ -97,6 +104,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public boolean areEnumsValid(User user)throws InvalidUserInputException {
         List<String> roleEnums = Arrays.asList("ADMIN", "USER", "IT_PRO");
         List<Boolean> checkRoleEnums = roleEnums.stream().map(str -> str.equals(user.getRole().toString())).collect(Collectors.toList());
@@ -109,6 +117,7 @@ public class UserService {
         return true;
     }
 
+    @Transactional
     public boolean isUserValid(User testUser) {
         Predicate<String> notNullOrEmpty = (str) -> str != null && !str.trim().equals("");
         if (testUser == null) throw new InvalidUserInputException("Inputted user was null");
@@ -119,5 +128,15 @@ public class UserService {
         if (!notNullOrEmpty.test(testUser.getLName())) throw new InvalidUserInputException("Inputted last name was empty or null");
         if (!notNullOrEmpty.test(testUser.getPassword())) throw new InvalidUserInputException("Inputted password was empty or null");
         return true;
+    }
+
+    @Transactional
+    public void setSessionUser(User sessionUser) {
+        this.sessionUser = sessionUser;
+    }
+
+    @Transactional
+    public User getSessionUser() {
+        return sessionUser;
     }
 }

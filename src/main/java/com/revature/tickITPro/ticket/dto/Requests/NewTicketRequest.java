@@ -10,18 +10,14 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 public class NewTicketRequest {
-    private String id;
     private String description;
     private String priority;
-    private Ticket.Status status;
-    private Date date;
+    private String subjectId;
 
 
-    public NewTicketRequest(String description, String priority, Date date) {
-        this.id = UUID.randomUUID().toString();
+    public NewTicketRequest(String description, String priority, String subjectId) {
         this.description = description;
         this.priority = priority;
-        this.status = status.PENDING;
-        this.date = date;
+        this.subjectId = subjectId;
     }
 }

@@ -39,6 +39,7 @@ public class AuthController {
 
     @DeleteMapping
     public void logout(HttpServletResponse resp){
+        userService.logout();
         resp.setHeader("Authorization",null);
     }
 

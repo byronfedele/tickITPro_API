@@ -8,7 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -47,11 +48,11 @@ public class Ticket {
     private Subject subjectId;
 
     public Ticket(NewTicketRequest newTicketRequest){
-        this.ticketId = newTicketRequest.getId();
+        this.ticketId = UUID.randomUUID().toString();
         this.description = newTicketRequest.getDescription();
         this.priority = Priority.valueOf(newTicketRequest.getPriority().toUpperCase());
-        this.status = newTicketRequest.getStatus();
-        this.date = newTicketRequest.getDate();
+        this.status = Status.PENDING;
+        this.date = new Date(System.currentTimeMillis());
     }
 
 

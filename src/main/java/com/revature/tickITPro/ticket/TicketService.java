@@ -20,13 +20,13 @@ public class TicketService {
     private final UserService userService;
     private final SubjectService subjectService;
     private final TicketRepository ticketRepository;
-@Autowired
+    @Autowired
     public TicketService(UserService userService, SubjectService subjectService, TicketRepository ticketRepository){
     this.userService=userService;
     this.subjectService=subjectService;
     this.ticketRepository=ticketRepository;
 }
-public boolean isTicketValid(Ticket newTicket){ //What is this for?
+public boolean isTicketValid(Ticket newTicket){ // What is this for?
     if(newTicket==null) return false;
     if(newTicket.getTicketId()== null || newTicket.getTicketId().trim().equals("")) return false;
     if(newTicket.getDescription()== null || newTicket.getDescription().trim().equals("")) return false;
@@ -40,8 +40,9 @@ public boolean isTicketValid(Ticket newTicket){ //What is this for?
 }
 @Transactional
 public TicketResponse addTicket(NewTicketRequest ticketRequest) throws InvalidUserInputException {
-    areEnumsValid(ticketRequest);
-    Ticket newTicket= new Ticket(ticketRequest);
+    Ticket newTicket = new Ticket(ticketRequest);
+    newTicket.setSubjectId(subjectService.getSubject(ticketRequest.getSubjectId()));
+    newTicket.setUserId(userService.getSessionUser());
     return new TicketResponse((ticketRepository.save(newTicket)));
 }
 @Transactional(readOnly = true)
@@ -109,17 +110,17 @@ public List<TicketResponse> findAllTickets(){
     return true;
     }
 
-    public boolean areEnumsValid(NewTicketRequest ticketRequest)throws InvalidUserInputException {
+    public boolean areEnumsValid(Ticket ticket)throws InvalidUserInputException {
         List<String> priorityEnums = Arrays.asList("DEFAULT","LOW_PRIORITY","HIGH_PRIORITY");
         List<String> statusEnums = Arrays.asList("PENDING","CONFIRMED","IN_PROGRESS","RESOLVED");
-        List<Boolean> checkPriorityEnums = priorityEnums.stream().map(str -> str.equals(ticketRequest.getPriority().toUpperCase())).collect(Collectors.toList());
+        List<Boolean> checkPriorityEnums = priorityEnums.stream().map(str -> str.equals(ticket.getPriority().toString().toUpperCase())).collect(Collectors.toList());
         if(!checkPriorityEnums.contains(true)){
             throw new InvalidUserInputException(
                     "Tech was not a valid entry please try the following : " +
                             priorityEnums.stream().map(Object::toString).collect(Collectors.joining(",")) // this will produce all available tech enums
             );
         }
-        List<Boolean> checkStatusEnums = priorityEnums.stream().map(str -> str.equals(ticketRequest.getStatus().toString().toUpperCase())).collect(Collectors.toList());
+        List<Boolean> checkStatusEnums = statusEnums.stream().map(str -> str.equals(ticket.getStatus().toString().toUpperCase())).collect(Collectors.toList());
         if(!checkPriorityEnums.contains(true)){
             throw new InvalidUserInputException(
                     "Tech was not a valid entry please try the following : " +

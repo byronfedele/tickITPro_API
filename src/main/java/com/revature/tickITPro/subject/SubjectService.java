@@ -55,6 +55,11 @@ public class SubjectService {
         return subjectResponse;
     }
 
+    @Transactional(readOnly = true)
+    public Subject getSubject(String subjectId) {
+        return subjectRepository.findById(subjectId).orElseThrow(ResourceNotFoundException::new);
+    }
+
     @Transactional
     public void remove(String subjectId) {
         subjectRepository.deleteById(subjectId);
