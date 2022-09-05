@@ -3,8 +3,6 @@ package com.revature.tickITPro.department;
 import com.revature.tickITPro.department.dto.request.EditDepartmentRequest;
 import com.revature.tickITPro.department.dto.request.NewDepartmentRequest;
 import com.revature.tickITPro.department.dto.response.DepartmentResponse;
-import com.revature.tickITPro.user.UserController;
-import com.revature.tickITPro.user.UserService;
 import com.revature.tickITPro.util.web.Secured;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +34,7 @@ public class DepartmentController {
         return departmentService.createDepartment(newDepartmentRequest);
     }
 
-    @PostMapping
+    @PutMapping
     public String update(@RequestBody EditDepartmentRequest editDepartmentRequest){
         departmentService.update(editDepartmentRequest);
         return "The update was applied to the department";

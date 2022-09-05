@@ -27,7 +27,7 @@ public class UserController {
     @GetMapping("/{id}")
     public UserResponse findById(@PathVariable String id){return userService.findById(id);}
 
-    @GetMapping({"/query"})
+    @GetMapping("/query/{query}")
     public UserResponse findByIdQuery(@RequestParam String id){return userService.findById(id);}
 //changed pom file to version match for @Valid annotation
     @PostMapping
