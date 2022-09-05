@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/department")
+@CrossOrigin(exposedHeaders = "Authorization")
 public class DepartmentController {
 
     private final DepartmentService departmentService;
@@ -26,6 +27,7 @@ public class DepartmentController {
     @GetMapping("/{id}")
     public DepartmentResponse findById(@PathVariable String id) {return departmentService.findById(id);}
 
+    @GetMapping("/query")
     public DepartmentResponse findByIdQuery(@RequestParam String id) {return departmentService.findById(id);}
 
     @PostMapping
