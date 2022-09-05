@@ -13,8 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping
-
+@RequestMapping("/department")
 public class DepartmentController {
 
     private final DepartmentService departmentService;
