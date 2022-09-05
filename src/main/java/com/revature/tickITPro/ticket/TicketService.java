@@ -52,18 +52,19 @@ public List<TicketResponse> findAllTickets(){
                                                 .collect(Collectors.toList());
 
 }
-@Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public TicketResponse findById(String ticketId){
     Ticket ticket = ticketRepository.findById(ticketId).orElseThrow(ResourceNotFoundException::new);
     TicketResponse ticketResponse = new TicketResponse(ticket);
     return ticketResponse;
 }
-@Transactional(readOnly = true)
-    public TicketResponse findByUserId(String userId){
-    Ticket ticket = ticketRepository.findByUserId(userId).orElseThrow(ResourceNotFoundException::new);
-    TicketResponse ticketResponse = new TicketResponse(ticket);
-    return ticketResponse;
-}
+    @Transactional(readOnly = true)
+    public List<TicketResponse> findByUserId(String userId){
+        return ((Collection<Ticket>) ticketRepository.findByUserId(userId))
+            .stream()
+            .map(TicketResponse::new)
+            .collect(Collectors.toList());
+    }
 //    @Transactional(readOnly = true)
 //    public TicketResponse findByItProId(String itProId){
 //        Ticket ticket = ticketRepository.findByUserId(itProId).orElseThrow(ResourceNotFoundException::new);
