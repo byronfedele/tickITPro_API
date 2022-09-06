@@ -4,6 +4,7 @@ import com.revature.tickITPro.department.dto.request.NewDepartmentRequest;
 import com.revature.tickITPro.user.dto.request.EditUserRequest;
 import com.revature.tickITPro.user.dto.request.NewUserRequest;
 import com.revature.tickITPro.user.dto.response.UserResponse;
+import com.revature.tickITPro.util.exceptions.InvalidUserInputException;
 import com.revature.tickITPro.util.web.Secured;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,15 +24,28 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {this.userService = userService;}
 
-    @GetMapping
+    @GetMapping("/override")
     @Secured(isAdmin = true)
-    public List<UserResponse> findAll(){return userService.readAll();}
+    public List<UserResponse> findAll() {
+        return userService.readAll();
+    }
 
-    @GetMapping("/{id}")
-    public UserResponse findById(@PathVariable String id){return userService.findById(id);}
+    @GetMapping("/override/{id}")
+    @Secured(isAdmin = true)
+    public UserResponse findById(@PathVariable String id) {
+        return userService.findById(id);
+    }
 
-    @GetMapping("/query")
-    public UserResponse findByIdQuery(@RequestParam String id){return userService.findById(id);}
+    @GetMapping
+    public UserResponse findCurrentUser(){
+        User sessionUser = userService.getSessionUser();
+
+        if (sessionUser != null) {
+            return userService.findById(sessionUser.getUserId());
+        } else {
+            throw new InvalidUserInputException("You must be logged in to view your account");
+        }
+    }
 //changed pom file to version match for @Valid annotation
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -39,21 +53,21 @@ public class UserController {
         return userService.registerUser(newRegistrationRequest);
     }
 
+    // Users should only be able to update their own accounts
     @PutMapping
-    @ResponseStatus(value = HttpStatus.OK)
     public UserResponse updateSessionUser(@RequestBody EditUserRequest editUserRequest){
-        return userService.update(editUserRequest);
-    }
+        User sessionUser = userService.getSessionUser();
 
-    @PutMapping("/{id}")
-    @ResponseStatus(value = HttpStatus.OK)
-    public UserResponse update(@RequestBody EditUserRequest editUserRequest){
-        return userService.update(editUserRequest);
+        if (sessionUser != null) {
+            editUserRequest.setId(sessionUser.getUserId());
+            return userService.update(editUserRequest);
+        } else {
+            throw new InvalidUserInputException("You must be logged in to update your account");
+        }
     }
 
     // Users that aren't ADMIN should only be able to delete their own accounts
     @DeleteMapping
-    @ResponseStatus(value = HttpStatus.OK)
     public String deleteSessionUser(HttpServletResponse resp) {
         User sessionUser = userService.getSessionUser();
 
@@ -68,8 +82,8 @@ public class UserController {
 
     }
 
+    // Admin Users can delete any account, specified in the path variable
     @DeleteMapping("/{id}")
-    @ResponseStatus(value = HttpStatus.OK)
     @Secured(isAdmin = true)
     public String deleteById(@PathVariable String id) {
         userService.remove(id);
