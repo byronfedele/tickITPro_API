@@ -72,23 +72,22 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserResponse findById(String userId) {
         User user = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
-        UserResponse userResponse = new UserResponse(user);
-        return userResponse;
+        return new UserResponse(user);
     }
 
     @Transactional(readOnly = true)
     public User getUser(String userId) {
-        User user = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
-        return user;
+        return userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Transactional
-    public void remove(String userId) {
+    public boolean remove(String userId) {
         userRepository.deleteById(userId);
+        return true;
     }
 
     @Transactional
-    public void update(EditUserRequest editUser) throws InvalidUserInputException {
+    public UserResponse update(EditUserRequest editUser) throws RuntimeException {
 
         User updateUser = userRepository.findById(editUser.getId()).orElseThrow(ResourceNotFoundException::new);
         Predicate<String> notNullOrEmpty = (str) -> str != null && !str.trim().equals("");
@@ -96,18 +95,38 @@ public class UserService {
         if (notNullOrEmpty.test(editUser.getFName())) updateUser.setFName(editUser.getFName());
         if (notNullOrEmpty.test(editUser.getLName())) updateUser.setLName(editUser.getLName());
         if (notNullOrEmpty.test(editUser.getPassword())) updateUser.setPassword(editUser.getPassword());
-        if (notNullOrEmpty.test(editUser.getRole())) updateUser.setRole(User.Role.valueOf(editUser.getRole()));
+        if (notNullOrEmpty.test(editUser.getRole())) {
+            areEnumsValid(editUser);
+            updateUser.setRole(User.Role.valueOf(editUser.getRole()));
+        }
         if (notNullOrEmpty.test(editUser.getDepartmentId())) updateUser.setDepartmentId(departmentService.getDepartment(editUser.getDepartmentId()));
         if (notNullOrEmpty.test(editUser.getEmail())) {
             isEmailAvailable(editUser.getEmail());
             updateUser.setEmail(editUser.getEmail());
         }
+
+        return new UserResponse(userRepository.save(updateUser));
     }
 
-    @Transactional
     public boolean areEnumsValid(User user)throws InvalidUserInputException {
-        List<String> roleEnums = Arrays.asList("ADMIN", "USER", "IT_PRO");
-        List<Boolean> checkRoleEnums = roleEnums.stream().map(str -> str.equals(user.getRole().toString())).collect(Collectors.toList());
+        List<String> roleEnums = Arrays.asList("USER", "IT_PRO", "ADMIN");
+        List<Boolean> checkRoleEnums = roleEnums.stream()
+                .map(str -> str.equals(user.getRole().toString()))
+                .collect(Collectors.toList());
+        if(!checkRoleEnums.contains(true)){
+            throw new InvalidUserInputException(
+                    "Role was not a valid entry please try the following : " +
+                            roleEnums.stream().map(Object::toString).collect(Collectors.joining(",")) // this will produce all available role enums
+            );
+        }
+        return true;
+    }
+
+    public boolean areEnumsValid(EditUserRequest user)throws InvalidUserInputException {
+        List<String> roleEnums = Arrays.asList("USER", "IT_PRO", "ADMIN");
+        List<Boolean> checkRoleEnums = roleEnums.stream()
+                .map(str -> str.equals(user.getRole().toUpperCase()))
+                .collect(Collectors.toList());
         if(!checkRoleEnums.contains(true)){
             throw new InvalidUserInputException(
                     "Role was not a valid entry please try the following : " +
@@ -127,6 +146,7 @@ public class UserService {
         if (!notNullOrEmpty.test(testUser.getFName())) throw new InvalidUserInputException("Inputted first name was empty or null");
         if (!notNullOrEmpty.test(testUser.getLName())) throw new InvalidUserInputException("Inputted last name was empty or null");
         if (!notNullOrEmpty.test(testUser.getPassword())) throw new InvalidUserInputException("Inputted password was empty or null");
+        areEnumsValid(testUser);
         return true;
     }
 

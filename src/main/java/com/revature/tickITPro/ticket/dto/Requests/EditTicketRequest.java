@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class EditTicketRequest extends EditResourceRequest {
+    private String proUserId;
+    private String subjectId;
     private String description;
     private String priority;
+    private String status;
 }

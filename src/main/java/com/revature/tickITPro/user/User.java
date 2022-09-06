@@ -64,6 +64,6 @@ public class User {
     }
     // public enums for roles
     public enum Role{
-        ADMIN, USER, IT_PRO
+        USER, IT_PRO, ADMIN
     }
 }
