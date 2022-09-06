@@ -29,7 +29,8 @@ public class DepartmentService {
     @Transactional(readOnly = true)
     public DepartmentResponse createDepartment(NewDepartmentRequest newDepartmentRequest) throws InvalidUserInputException, ResourcePersistanceException {
         Department newDepartment = new Department(newDepartmentRequest);
-        isDepartmentAvailable(newDepartmentRequest.getDepartmentName());
+        isDepartmentValid(newDepartment);
+        isDepartmentAvailable(newDepartment.getDepartmentName());
         return new DepartmentResponse(departmentRepository.save(newDepartment));
     }
 
@@ -37,12 +38,12 @@ public class DepartmentService {
     public boolean isDepartmentAvailable(String departmentName) {
         if (departmentRepository.findByDepartmentName(departmentName).isPresent()){
             throw new InvalidUserInputException("Department name: " + departmentName + " already in use.");
-    }
+        }
         return true;
     }
 
     @Transactional(readOnly = true)
-    public List<DepartmentResponse> readAll() {
+    public List<DepartmentResponse> findAllDepartments() {
         return ((Collection<Department>) departmentRepository.findAll())
                 .stream()
                 .map(DepartmentResponse::new)
@@ -63,20 +64,28 @@ public class DepartmentService {
     }
 
     @Transactional
-    public void remove(String departmentId) {
+    public boolean remove(String departmentId) {
         departmentRepository.deleteById(departmentId);
+        return true;
     }
 
     @Transactional
-    public void update(EditDepartmentRequest editDepartmentRequest) throws InvalidUserInputException {
+    public DepartmentResponse update(EditDepartmentRequest editDepartmentRequest) throws RuntimeException {
 
         Department updateDepartment = departmentRepository.findById(editDepartmentRequest.getId()).orElseThrow(ResourceNotFoundException::new);
         Predicate<String> notNullOrEmpty = (str) -> str != null && !str.trim().equals("");
 
         if (notNullOrEmpty.test(editDepartmentRequest.getDepartmentName()) && isDepartmentAvailable(editDepartmentRequest.getDepartmentName())){
             updateDepartment.setDepartmentName(editDepartmentRequest.getDepartmentName());
-
         }
+        return new DepartmentResponse(departmentRepository.save(updateDepartment));
+    }
+
+    public boolean isDepartmentValid(Department testDepartment) {
+        if (testDepartment == null) throw new InvalidUserInputException("Inputted department was null");
+        if (testDepartment.getDepartmentId()== null || testDepartment.getDepartmentId().trim().equals("")) throw new InvalidUserInputException("Department ID was empty or null");
+        if (testDepartment.getDepartmentName()== null || testDepartment.getDepartmentName().trim().equals("")) throw new InvalidUserInputException("Department Name was empty or null");
+        return true;
     }
 
 }

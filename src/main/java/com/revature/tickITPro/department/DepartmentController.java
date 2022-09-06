@@ -22,7 +22,7 @@ public class DepartmentController {
 
     @GetMapping
     @Secured(isAdmin = true)
-    public List<DepartmentResponse> findAll(){return departmentService.readAll();}
+    public List<DepartmentResponse> findAll(){return departmentService.findAllDepartments();}
 
     @GetMapping("/{id}")
     public DepartmentResponse findById(@PathVariable String id) {return departmentService.findById(id);}

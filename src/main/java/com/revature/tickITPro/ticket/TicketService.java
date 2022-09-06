@@ -30,7 +30,7 @@ public class TicketService {
         if(testTicket == null) throw new InvalidUserInputException("Inputted ticket was null");
         if(testTicket.getTicketId()== null || testTicket.getTicketId().trim().equals("")) throw new InvalidUserInputException("Ticket ID was empty or null");
         if(testTicket.getDescription()== null || testTicket.getDescription().trim().equals("")) throw new InvalidUserInputException("Description was empty or null");
-        if(testTicket.getDate()== null || testTicket.getDate().equals("")) throw new InvalidUserInputException("Ticket submissionDate was empty or null");
+        if(testTicket.getDate()== null || testTicket.getDate().equals("")) throw new InvalidUserInputException("Ticket submission Date was empty or null");
         if(testTicket.getUserId()== null || testTicket.getUserId().equals("")) throw new InvalidUserInputException("Requested User ID was empty or null");
         if(testTicket.getSubjectId()== null || testTicket.getSubjectId().equals("")) throw new InvalidUserInputException("Subject ID was empty or null");
         areEnumsValid(testTicket);

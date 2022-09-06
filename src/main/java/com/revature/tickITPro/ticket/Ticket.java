@@ -21,7 +21,7 @@ public class Ticket {
     @Column(name = "ticket_id")
     private String ticketId;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
     @Column(name = "priority")
@@ -32,11 +32,11 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column(name = "submission_date")
+    @Column(name = "submission_date", nullable = false)
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "req_user_id", nullable = false)
+    @JoinColumn(name = "req_user_id")
     private User userId;
 
     @ManyToOne

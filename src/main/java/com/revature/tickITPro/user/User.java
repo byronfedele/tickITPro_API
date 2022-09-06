@@ -28,11 +28,11 @@ public class User {
     private String userId;
     @Column(name = "email", nullable = false, unique = true)
     private String email;
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "f_name")
+    @Column(name = "f_name", nullable = false)
     private String fName;
-    @Column(name = "l_name")
+    @Column(name = "l_name", nullable = false)
     private String lName;
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
