@@ -14,15 +14,15 @@ import java.util.UUID;
 @NoArgsConstructor
 public class NewUserRequest {
 
-    @NotBlank(message = "Please do not leave first name blank")
+    @NotBlank(message = "First Name cannot be blank")
     private String fName;
-    @NotBlank(message = "Please do not leave last name blank")
+    @NotBlank(message = "Last Name cannot be blank")
     private String lName;
     @Email(message = "Please provide a valid email")
     private String email;
-    @Pattern(message = "Minimum eight characters, at least one letter, one number and one special character",regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")
+    @Pattern(message = "Password must contain a minimum of eight characters, at least one letter, one number, and one special character",regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")
     private String password;
-
+    @NotBlank(message = "department ID cannot be blank")
     private String departmentId;
 
     public NewUserRequest(String fName, String lName, String email, String password, String departmentId) {

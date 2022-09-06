@@ -2,6 +2,7 @@ package com.revature.tickITPro.util.web.auth.dto.request;
 
 public abstract class EditResourceRequest {
 
+
     protected String id;
 
     public String getId() {

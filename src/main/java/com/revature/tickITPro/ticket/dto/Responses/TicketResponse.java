@@ -13,8 +13,8 @@ import java.util.Date;
 public class TicketResponse {
     String ticketId;
     String description;
-    Ticket.Priority priority;
-    Ticket.Status status;
+    String priority;
+    String status;
     Date date;
     User userId;
     User proId;
@@ -23,8 +23,8 @@ public class TicketResponse {
     public TicketResponse(Ticket ticket){
         this.ticketId = ticket.getTicketId();
         this.description = ticket.getDescription();
-        this.priority = ticket.getPriority();
-        this.status = ticket.getStatus();
+        this.priority = ticket.getPriority().toString();
+        this.status = ticket.getStatus().toString();
         this.date = ticket.getDate();
         this.userId = ticket.getUserId();
         this.proId = ticket.getProUserId();

@@ -1,5 +1,6 @@
 package com.revature.tickITPro.user.dto.response;
 
+import com.revature.tickITPro.department.Department;
 import com.revature.tickITPro.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ public class UserResponse {
     private String fName;
     private String lName;
     private String role;
-    private String departmentId;
+    private Department departmentId;
 
     public UserResponse(User user) {
         this.userId = user.getUserId();
@@ -21,6 +22,6 @@ public class UserResponse {
         this.fName = user.getFName();
         this.lName = user.getLName();
         this.role = user.getRole().toString();
-        this.departmentId = user.getDepartmentId().getDepartmentId();
+        this.departmentId = user.getDepartmentId();
     }
 }

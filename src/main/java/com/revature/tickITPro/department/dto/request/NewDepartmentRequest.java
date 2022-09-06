@@ -10,7 +10,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class NewDepartmentRequest {
 
-    @NotBlank(message = "Please enter a department name")
+    @NotBlank(message = "Department Name cannot be blank")
     private String departmentName;
 
     public NewDepartmentRequest(String departmentName) {
