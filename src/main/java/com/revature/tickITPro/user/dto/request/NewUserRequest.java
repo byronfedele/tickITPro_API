@@ -22,7 +22,6 @@ public class NewUserRequest {
     private String email;
     @Pattern(message = "Password must contain a minimum of eight characters, at least one letter, one number, and one special character",regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")
     private String password;
-    @NotBlank(message = "department ID cannot be blank")
     private String departmentId;
 
     public NewUserRequest(String fName, String lName, String email, String password, String departmentId) {

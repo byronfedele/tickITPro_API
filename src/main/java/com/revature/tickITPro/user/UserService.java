@@ -36,7 +36,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserResponse registerUser(NewUserRequest newUserRequest) throws InvalidUserInputException, ResourcePersistanceException {
         User newUser = new User(newUserRequest);
-        newUser.setDepartmentId(departmentService.getDepartment(newUserRequest.getDepartmentId()));
+        if (newUserRequest.getDepartmentId() != null) newUser.setDepartmentId(departmentService.getDepartment(newUserRequest.getDepartmentId()));
         isUserValid(newUser);
         isEmailAvailable(newUserRequest.getEmail());
         return new UserResponse(userRepository.save(newUser));
@@ -140,7 +140,7 @@ public class UserService {
     public boolean isUserValid(User testUser) {
         Predicate<String> notNullOrEmpty = (str) -> str != null && !str.trim().equals("");
         if (testUser == null) throw new InvalidUserInputException("Inputted user was null");
-        if (testUser.getDepartmentId() == null) throw new InvalidUserInputException("Department associated with inputted user was null");
+//        if (testUser.getDepartmentId() == null) throw new InvalidUserInputException("Department associated with inputted user was null");
         if (!notNullOrEmpty.test(testUser.getUserId())) throw new InvalidUserInputException("Inputted userId was empty or null");
         if (!notNullOrEmpty.test(testUser.getEmail())) throw new InvalidUserInputException("Inputted email was empty or null");
         if (!notNullOrEmpty.test(testUser.getFName())) throw new InvalidUserInputException("Inputted first name was empty or null");

@@ -49,7 +49,6 @@ public class UserController {
     }
 //changed pom file to version match for @Valid annotation
     @PostMapping
-    @Secured
     @ResponseStatus(value = HttpStatus.CREATED)
     public UserResponse register(@RequestBody @Valid NewUserRequest newRegistrationRequest){
         return userService.registerUser(newRegistrationRequest);
