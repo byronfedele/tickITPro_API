@@ -30,9 +30,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
     @Column(name = "f_name", nullable = false)
-    private String fName;
+    private String firstName;
     @Column(name = "l_name", nullable = false)
-    private String lName;
+    private String lastName;
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;       // this role is coming from our Role Enum  (careful not to import Java's Role)
@@ -52,8 +52,8 @@ public class User {
         this.userId = UUID.randomUUID().toString();
         this.email = newUserRequest.getEmail();
         this.password = newUserRequest.getPassword();
-        this.fName = newUserRequest.getFName();
-        this.lName = newUserRequest.getLName();
+        this.firstName = newUserRequest.getFirstName();
+        this.lastName = newUserRequest.getLastName();
         this.role = Role.USER;
     }
     public User(String userId,String email, Role role) {

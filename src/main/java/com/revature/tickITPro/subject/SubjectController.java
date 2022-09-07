@@ -34,7 +34,7 @@ public class SubjectController {
     public SubjectResponse findByIdQuery(@RequestParam String id){return subjectService.findById(id);}
 
     @PostMapping
-    @Secured(isAdmin = true)
+//    @Secured(isAdmin = true)
     @ResponseStatus(value = HttpStatus.CREATED)
     public SubjectResponse create(@RequestBody @Valid NewSubjectRequest newSubjectRequest){
         return subjectService.createSubject(newSubjectRequest);

@@ -130,27 +130,7 @@ public class TicketService {
     }
 
     public boolean areEnumsValid(Ticket ticket) throws InvalidUserInputException {
-        List<String> priorityEnums = Arrays.asList("DEFAULT","LOW_PRIORITY","HIGH_PRIORITY");
-        List<Boolean> checkPriorityEnums = priorityEnums.stream()
-                .map(str -> str.equals(ticket.getPriority().toString().toUpperCase()))
-                .collect(Collectors.toList());
-        if(!checkPriorityEnums.contains(true)){
-            throw new InvalidUserInputException(
-                    "Priority was not a valid entry please try the following : " +
-                            priorityEnums.stream().map(Object::toString).collect(Collectors.joining(",")) // this will produce all available priority enums
-            );
-        }
-        List<String> statusEnums = Arrays.asList("PENDING","CONFIRMED","RESOLVED");
-        List<Boolean> checkStatusEnums = statusEnums.stream()
-                .map(str -> str.equals(ticket.getStatus().toString().toUpperCase()))
-                .collect(Collectors.toList());
-        if(!checkStatusEnums.contains(true)){
-            throw new InvalidUserInputException(
-                    "Status was not a valid entry please try the following : " +
-                            statusEnums.stream().map(Object::toString).collect(Collectors.joining(",")) // this will produce all available status enums
-            );
-        }
-        return true;
+        return arePriorityEnumsValid(ticket.getPriority().toString()) && areStatusEnumsValid(ticket.getStatus().toString());
     }
 
     public boolean arePriorityEnumsValid(String ticketPriority) throws InvalidUserInputException {

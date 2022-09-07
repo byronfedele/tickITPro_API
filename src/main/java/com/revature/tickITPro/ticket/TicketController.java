@@ -29,6 +29,12 @@ public class TicketController {
         return ticketService.findAllTickets();
     }
 
+    @GetMapping("/{id}")
+    @Secured
+    public TicketResponse findById(@PathVariable String id) {
+        return ticketService.findById(id);
+    }
+
     @GetMapping("/creator/{id}")
     @Secured
     public List<TicketResponse> findAllByCreatorId(@PathVariable String id) {
