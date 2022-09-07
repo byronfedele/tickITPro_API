@@ -8,11 +8,9 @@ import java.util.Optional;
 
 @Repository
 public interface TicketRepository extends CrudRepository<Ticket, String> {
-    @Query(value = "FROM Ticket where ticket_id= :ticketId")
-    Optional<Ticket> findByTicketId(String ticketId);
 
     @Query(value = "FROM Ticket where req_user_id= :userId ORDER BY submission_date")
-    Optional<Ticket> findByUserId(String userId);
+    Iterable<Ticket> findByUserId(String userId);
 
     @Query(value = "FROM Ticket where pro_user_id= :proUserId ORDER BY submission_date")
     Iterable<Ticket> findByITProId(String proUserId);
@@ -24,5 +22,5 @@ public interface TicketRepository extends CrudRepository<Ticket, String> {
     Iterable<Ticket> findByPriority(Ticket.Priority priority);
 
     @Query(value = "FROM Ticket where status= :status ORDER BY submission_date")
-    Iterable<Ticket> findByPriority(Ticket.Status status);
+    Iterable<Ticket> findByStatus(Ticket.Status status);
 }

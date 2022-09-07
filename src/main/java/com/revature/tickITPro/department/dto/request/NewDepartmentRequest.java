@@ -10,13 +10,10 @@ import java.util.UUID;
 @NoArgsConstructor
 public class NewDepartmentRequest {
 
-    private String id;
-
-    @NotBlank(message = "Please enter a department name")
+    @NotBlank(message = "Department Name cannot be blank")
     private String departmentName;
 
     public NewDepartmentRequest(String departmentName) {
-        this.id = UUID.randomUUID().toString();
         this.departmentName = departmentName;
     }
 }

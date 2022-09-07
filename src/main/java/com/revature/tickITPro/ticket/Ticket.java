@@ -8,7 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -20,7 +21,7 @@ public class Ticket {
     @Column(name = "ticket_id")
     private String ticketId;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
     @Column(name = "priority")
@@ -31,11 +32,11 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column(name = "submission_date")
+    @Column(name = "submission_date", nullable = false)
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "req_user_id", nullable = false)
+    @JoinColumn(name = "req_user_id")
     private User userId;
 
     @ManyToOne
@@ -47,21 +48,21 @@ public class Ticket {
     private Subject subjectId;
 
     public Ticket(NewTicketRequest newTicketRequest){
-        this.ticketId = newTicketRequest.getId();
+        this.ticketId = UUID.randomUUID().toString();
         this.description = newTicketRequest.getDescription();
         this.priority = Priority.valueOf(newTicketRequest.getPriority().toUpperCase());
-        this.status = newTicketRequest.getStatus();
-        this.date = newTicketRequest.getDate();
+        this.status = Status.PENDING;
+        this.date = new Date(System.currentTimeMillis());
     }
 
 
 
     public enum Priority{
-        LOW_PRIORITY,DEFAULT,HIGH_PRIORITY
+        LOW_PRIORITY, DEFAULT, HIGH_PRIORITY
     }
 
     public enum Status{
-        PENDING, CONFIRMED, IN_PROGRESS, RESOLVED
+        PENDING, CONFIRMED, RESOLVED
     }
 
 }

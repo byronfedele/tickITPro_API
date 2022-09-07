@@ -3,8 +3,6 @@ package com.revature.tickITPro.department;
 import com.revature.tickITPro.department.dto.request.EditDepartmentRequest;
 import com.revature.tickITPro.department.dto.request.NewDepartmentRequest;
 import com.revature.tickITPro.department.dto.response.DepartmentResponse;
-import com.revature.tickITPro.user.UserController;
-import com.revature.tickITPro.user.UserService;
 import com.revature.tickITPro.util.web.Secured;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,8 +11,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping
-
+@RequestMapping("/department")
+@CrossOrigin(exposedHeaders = "Authorization")
 public class DepartmentController {
 
     private final DepartmentService departmentService;
@@ -24,22 +22,34 @@ public class DepartmentController {
 
     @GetMapping
     @Secured(isAdmin = true)
-    public List<DepartmentResponse> findAll(){return departmentService.readAll();}
+    public List<DepartmentResponse> findAll(){return departmentService.findAllDepartments();}
 
     @GetMapping("/{id}")
+    @Secured
     public DepartmentResponse findById(@PathVariable String id) {return departmentService.findById(id);}
 
+    @GetMapping("/query")
+    @Secured
     public DepartmentResponse findByIdQuery(@RequestParam String id) {return departmentService.findById(id);}
 
     @PostMapping
+    @Secured(isAdmin = true)
     @ResponseStatus(value = HttpStatus.CREATED)
     public DepartmentResponse register(@RequestBody @Valid NewDepartmentRequest newDepartmentRequest){
         return departmentService.createDepartment(newDepartmentRequest);
     }
 
-    @PostMapping
-    public String update(@RequestBody EditDepartmentRequest editDepartmentRequest){
-        departmentService.update(editDepartmentRequest);
-        return "The update was applied to the department";
+    @PutMapping
+    @Secured(isAdmin = true)
+    public DepartmentResponse update(@RequestBody EditDepartmentRequest editDepartmentRequest){
+        return departmentService.update(editDepartmentRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    @Secured(isAdmin = true)
+    @ResponseStatus(value = HttpStatus.OK)
+    public String delete(@PathVariable String id){
+        departmentService.remove(id);
+        return "Department with id \'" + id + "\' has been deleted";
     }
 }

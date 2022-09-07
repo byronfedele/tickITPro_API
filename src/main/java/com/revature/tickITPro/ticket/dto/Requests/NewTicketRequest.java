@@ -4,24 +4,24 @@ import com.revature.tickITPro.ticket.Ticket;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 public class NewTicketRequest {
-    private String id;
+    @NotBlank(message = "description cannot be blank")
     private String description;
+    @NotBlank(message = "priority cannot be blank")
     private String priority;
-    private Ticket.Status status;
-    private Date date;
+    @NotBlank(message = "subject ID cannot be blank")
+    private String subjectId;
 
 
-    public NewTicketRequest(String description, String priority, Date date) {
-        this.id = UUID.randomUUID().toString();
+    public NewTicketRequest(String description, String priority, String subjectId) {
         this.description = description;
         this.priority = priority;
-        this.status = status.PENDING;
-        this.date = date;
+        this.subjectId = subjectId;
     }
 }

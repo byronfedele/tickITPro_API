@@ -22,43 +22,48 @@ public class User {
     // This class represents the model for users
     // All users will have the following attributes
     // User types will be differentiated based on their roles
-    // ID will be generated from a combo of random numbers and users' initials
 
     @Id
     @Column(name = "user_id")
     private String userId;
     @Column(name = "email", nullable = false, unique = true)
     private String email;
-    @Column
+    @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "f_name")
+    @Column(name = "f_name", nullable = false)
     private String fName;
-    @Column(name = "l_name")
+    @Column(name = "l_name", nullable = false)
     private String lName;
-    @Column
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    private Role role;       // this role is coming from the NewUserRequest (careful not to import Java's Role)
+    private Role role;       // this role is coming from our Role Enum  (careful not to import Java's Role)
     @ManyToOne                              // think: Many users To One department (meaning 2 diff users can come from the same department)
     @JoinColumn(name = "department_id")
     private Department departmentId;
     // list of tickets that this user created (regular users)
-    @OneToMany(mappedBy="userId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Transient
     private List<Ticket> createdTicketList;
     // list of tickets that this user confirmed (ITPro users)
-    @OneToMany(mappedBy="proUserId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="proUserId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Transient
     private List<Ticket> confirmedTicketList;
 
     public User(NewUserRequest newUserRequest) {
-
-        this.userId = newUserRequest.getUserId();
+        this.userId = UUID.randomUUID().toString();
         this.email = newUserRequest.getEmail();
         this.password = newUserRequest.getPassword();
         this.fName = newUserRequest.getFName();
         this.lName = newUserRequest.getLName();
-        this.role = newUserRequest.getRole();
+        this.role = Role.USER;
+    }
+    public User(String userId,String email, Role role) {
+        this.userId = userId;
+        this.email = email;
+        this.role = role;
     }
     // public enums for roles
     public enum Role{
-        ADMIN, USER, IT_PRO
+        USER, IT_PRO, ADMIN
     }
 }
