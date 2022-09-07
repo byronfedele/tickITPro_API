@@ -21,20 +21,38 @@ public class TicketController {
 
     @GetMapping
     @Secured(isITPro = true)
-    public List<TicketResponse> getAll() {
+    public List<TicketResponse> findAll() {
         return ticketService.findAllTickets();
     }
 
     @GetMapping("/creator/{id}")
     @Secured
-    public List<TicketResponse> getAllByCreatorId(@PathVariable String id) {
-        return ticketService.findAllByCreatorId(id);
+    public List<TicketResponse> findAllByCreatorId(@PathVariable String id) {
+        return ticketService.findByCreatorId(id);
     }
 
-    @GetMapping("/creator/{id}")
+    @GetMapping("/itpro/{id}")
     @Secured
     public List<TicketResponse> getAllByITProId(@PathVariable String id) {
-        return ticketService.findAllByCreatorId(id);
+        return ticketService.findByItProId(id);
+    }
+
+    @GetMapping("/subject/{id}")
+    @Secured
+    public List<TicketResponse> getAllBySubjectId(@PathVariable String id) {
+        return ticketService.findBySubjectId(id);
+    }
+
+    @GetMapping("/priority/{priority}")
+    @Secured
+    public List<TicketResponse> getAllByPriority(@PathVariable String priority) {
+        return ticketService.findByPriority(priority.toUpperCase());
+    }
+
+    @GetMapping("/status/{status}")
+    @Secured
+    public List<TicketResponse> getAllByStatus(@PathVariable String status) {
+        return ticketService.findByStatus(status.toUpperCase());
     }
 
 }

@@ -60,7 +60,7 @@ public class TicketService {
     }
     // find all tickets created by a certain user
     @Transactional(readOnly = true)
-    public List<TicketResponse> findAllByCreatorId(String userId){
+    public List<TicketResponse> findByCreatorId(String userId){
         return ((Collection<Ticket>) ticketRepository.findByUserId(userId))
                 .stream()
                 .map(TicketResponse::new)
@@ -78,16 +78,18 @@ public class TicketService {
 
     // find all tickets by their given priority (LOW_PRIORITY, DEFAULT, HIGH_PRIORITY)
     @Transactional(readOnly = true)
-    public List<TicketResponse> findByPriority(Ticket.Priority priority){
-        return ((Collection<Ticket>) ticketRepository.findByPriority(priority))
+    public List<TicketResponse> findByPriority(String priority){
+        arePriorityEnumsValid(priority);
+        return ((Collection<Ticket>) ticketRepository.findByPriority(Ticket.Priority.valueOf(priority)))
                 .stream()
                 .map(TicketResponse::new)
                 .collect(Collectors.toList());
     }
     // find all tickets by their given status (PENDING, CONFIRMED, RESOLVED)
     @Transactional(readOnly = true)
-    public List<TicketResponse> findByStatus(Ticket.Status status){
-        return ((Collection<Ticket>) ticketRepository.findByStatus(status))
+    public List<TicketResponse> findByStatus(String status){
+        areStatusEnumsValid(status);
+        return ((Collection<Ticket>) ticketRepository.findByStatus(Ticket.Status.valueOf(status)))
                 .stream()
                 .map(TicketResponse::new)
                 .collect(Collectors.toList());
@@ -113,11 +115,11 @@ public class TicketService {
         if (notNullOrEmpty.test(editTicket.getSubjectId())) updateTicket.setSubjectId(subjectService.getSubject(editTicket.getSubjectId()));
         if (notNullOrEmpty.test(editTicket.getProUserId())) updateTicket.setProUserId(userService.getUser(editTicket.getProUserId()));
         if (notNullOrEmpty.test(editTicket.getPriority())) {
-            arePriorityEnumsValid(editTicket);
+            arePriorityEnumsValid(editTicket.getPriority());
             updateTicket.setPriority(Ticket.Priority.valueOf(editTicket.getPriority()));
         }
         if (notNullOrEmpty.test(editTicket.getStatus())) {
-            areStatusEnumsValid(editTicket);
+            areStatusEnumsValid(editTicket.getStatus());
             updateTicket.setStatus(Ticket.Status.valueOf(editTicket.getStatus()));
         }
         return new TicketResponse(ticketRepository.save(updateTicket));
@@ -153,10 +155,10 @@ public class TicketService {
         return true;
     }
 
-    public boolean arePriorityEnumsValid(EditTicketRequest ticket) throws InvalidUserInputException {
+    public boolean arePriorityEnumsValid(String ticketPriority) throws InvalidUserInputException {
         List<String> priorityEnums = Arrays.asList("DEFAULT","LOW_PRIORITY","HIGH_PRIORITY");
         List<Boolean> checkPriorityEnums = priorityEnums.stream()
-                .map(str -> str.equals(ticket.getPriority().toUpperCase()))
+                .map(str -> str.equals(ticketPriority))
                 .collect(Collectors.toList());
         if(!checkPriorityEnums.contains(true)){
             throw new InvalidUserInputException(
@@ -167,10 +169,10 @@ public class TicketService {
         return true;
     }
 
-    public boolean areStatusEnumsValid(EditTicketRequest ticket) throws InvalidUserInputException {
+    public boolean areStatusEnumsValid(String ticketStatus) throws InvalidUserInputException {
         List<String> statusEnums = Arrays.asList("PENDING","CONFIRMED","RESOLVED");
         List<Boolean> checkStatusEnums = statusEnums.stream()
-                .map(str -> str.equals(ticket.getStatus().toUpperCase()))
+                .map(str -> str.equals(ticketStatus))
                 .collect(Collectors.toList());
         if(!checkStatusEnums.contains(true)){
             throw new InvalidUserInputException(
