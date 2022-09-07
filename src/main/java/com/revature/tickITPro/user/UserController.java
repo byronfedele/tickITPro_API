@@ -24,19 +24,20 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {this.userService = userService;}
 
-    @GetMapping("/override")
+    @GetMapping("/all")
     @Secured(isAdmin = true)
     public List<UserResponse> findAll() {
         return userService.readAll();
     }
 
-    @GetMapping("/override/{id}")
+    @GetMapping("/{id}")
     @Secured(isAdmin = true)
     public UserResponse findById(@PathVariable String id) {
         return userService.findById(id);
     }
 
     @GetMapping
+    @Secured
     public UserResponse findCurrentUser(){
         User sessionUser = userService.getSessionUser();
 
@@ -48,6 +49,7 @@ public class UserController {
     }
 //changed pom file to version match for @Valid annotation
     @PostMapping
+    @Secured
     @ResponseStatus(value = HttpStatus.CREATED)
     public UserResponse register(@RequestBody @Valid NewUserRequest newRegistrationRequest){
         return userService.registerUser(newRegistrationRequest);
@@ -55,6 +57,7 @@ public class UserController {
 
     // Users should only be able to update their own accounts
     @PutMapping
+    @Secured
     public UserResponse updateSessionUser(@RequestBody EditUserRequest editUserRequest){
         User sessionUser = userService.getSessionUser();
 
@@ -68,6 +71,7 @@ public class UserController {
 
     // Users that aren't ADMIN should only be able to delete their own accounts
     @DeleteMapping
+    @Secured
     public String deleteSessionUser(HttpServletResponse resp) {
         User sessionUser = userService.getSessionUser();
 

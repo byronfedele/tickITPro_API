@@ -22,11 +22,11 @@ public class SubjectController {
     public SubjectController(SubjectService subjectService) {this.subjectService = subjectService;}
 
     @GetMapping
-    @Secured(isAdmin = true)
+    @Secured
     public List<SubjectResponse> findAll(){return subjectService.readAll();}
 
     @GetMapping("/{id}")
-    @Secured(isAdmin = true)
+    @Secured
     public SubjectResponse findById(@PathVariable String id){return subjectService.findById(id);}
 
     @GetMapping({"/query"})
@@ -43,9 +43,8 @@ public class SubjectController {
     @PutMapping
     @Secured(isAdmin = true)
     @ResponseStatus(value = HttpStatus.OK)
-    public String update(@RequestBody @Valid EditSubjectRequest editSubjectRequest){
-        subjectService.update(editSubjectRequest);
-        return "Subject has been updated.";
+    public SubjectResponse update(@RequestBody @Valid EditSubjectRequest editSubjectRequest){
+        return subjectService.update(editSubjectRequest);
     }
 
     // Delete using @PathVariable
@@ -54,15 +53,6 @@ public class SubjectController {
     @ResponseStatus(value = HttpStatus.OK)
     public String delete(@PathVariable String id){
         subjectService.remove(id);
-        return "Subject has been removed.";
-    }
-
-    // Delete using @RequestParam
-    @DeleteMapping({"/query"})
-    @Secured(isAdmin = true)
-    @ResponseStatus(value = HttpStatus.OK)
-    public String remove(@RequestParam String id){
-        subjectService.remove(id);
-        return "Subject has been removed.";
+        return "Subject with id \'" + id + "\' has been deleted";
     }
 }

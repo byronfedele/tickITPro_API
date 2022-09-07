@@ -25,20 +25,31 @@ public class DepartmentController {
     public List<DepartmentResponse> findAll(){return departmentService.findAllDepartments();}
 
     @GetMapping("/{id}")
+    @Secured
     public DepartmentResponse findById(@PathVariable String id) {return departmentService.findById(id);}
 
     @GetMapping("/query")
+    @Secured
     public DepartmentResponse findByIdQuery(@RequestParam String id) {return departmentService.findById(id);}
 
     @PostMapping
+    @Secured(isAdmin = true)
     @ResponseStatus(value = HttpStatus.CREATED)
     public DepartmentResponse register(@RequestBody @Valid NewDepartmentRequest newDepartmentRequest){
         return departmentService.createDepartment(newDepartmentRequest);
     }
 
     @PutMapping
-    public String update(@RequestBody EditDepartmentRequest editDepartmentRequest){
-        departmentService.update(editDepartmentRequest);
-        return "The update was applied to the department";
+    @Secured(isAdmin = true)
+    public DepartmentResponse update(@RequestBody EditDepartmentRequest editDepartmentRequest){
+        return departmentService.update(editDepartmentRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    @Secured(isAdmin = true)
+    @ResponseStatus(value = HttpStatus.OK)
+    public String delete(@PathVariable String id){
+        departmentService.remove(id);
+        return "Department with id \'" + id + "\' has been deleted";
     }
 }
