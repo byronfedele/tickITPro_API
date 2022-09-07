@@ -16,7 +16,6 @@ import java.util.UUID;
 @AllArgsConstructor     // takes care of arg-constructor (do not have to generate one)
 @Entity
 @Table(name = "users")
-
 public class User {
 
     // This class represents the model for users

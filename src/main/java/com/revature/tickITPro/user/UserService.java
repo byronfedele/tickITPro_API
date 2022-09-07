@@ -10,9 +10,12 @@ import com.revature.tickITPro.util.exceptions.InvalidUserInputException;
 import com.revature.tickITPro.util.exceptions.ResourceNotFoundException;
 import com.revature.tickITPro.util.exceptions.ResourcePersistanceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -26,6 +29,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final DepartmentService departmentService;
     private User sessionUser;
+    @Value("${jwt.secret}")
+    private String passwordHash;
 
     @Autowired
     public UserService(UserRepository userRepository, DepartmentService departmentService) {
@@ -35,10 +40,14 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserResponse registerUser(NewUserRequest newUserRequest) throws InvalidUserInputException, ResourcePersistanceException {
-        User newUser = new User(newUserRequest);
-        newUser.setDepartmentId(departmentService.getDepartment(newUserRequest.getDepartmentId()));
-        isUserValid(newUser);
         isEmailAvailable(newUserRequest.getEmail());
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10,new SecureRandom(passwordHash.getBytes()));
+        newUserRequest.setPassword(passwordEncoder.encode(newUserRequest.getPassword()));
+
+        User newUser = new User(newUserRequest);
+        if (newUserRequest.getDepartmentId() != null) newUser.setDepartmentId(departmentService.getDepartment(newUserRequest.getDepartmentId()));
+        isUserValid(newUser);
         return new UserResponse(userRepository.save(newUser));
     }
 
@@ -51,6 +60,8 @@ public class UserService {
 
     @Transactional
     public User login(String email, String password){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10, new SecureRandom(passwordHash.getBytes()));
+        password = passwordEncoder.encode(password);
         User user = userRepository.loginCredentialCheck(email, password).orElseThrow(ResourceNotFoundException::new);
         setSessionUser(user);
         return user;
@@ -140,7 +151,7 @@ public class UserService {
     public boolean isUserValid(User testUser) {
         Predicate<String> notNullOrEmpty = (str) -> str != null && !str.trim().equals("");
         if (testUser == null) throw new InvalidUserInputException("Inputted user was null");
-        if (testUser.getDepartmentId() == null) throw new InvalidUserInputException("Department associated with inputted user was null");
+//        if (testUser.getDepartmentId() == null) throw new InvalidUserInputException("Department associated with inputted user was null");
         if (!notNullOrEmpty.test(testUser.getUserId())) throw new InvalidUserInputException("Inputted userId was empty or null");
         if (!notNullOrEmpty.test(testUser.getEmail())) throw new InvalidUserInputException("Inputted email was empty or null");
         if (!notNullOrEmpty.test(testUser.getFName())) throw new InvalidUserInputException("Inputted first name was empty or null");
