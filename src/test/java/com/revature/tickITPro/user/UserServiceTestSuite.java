@@ -128,8 +128,8 @@ public class UserServiceTestSuite {
         assertEquals(userRequest.getEmail(),userResponse.getEmail());
         assertEquals(userRequest.getFName(),userResponse.getFName());
         assertEquals(userRequest.getLName(),userResponse.getLName());
-        assertEquals(userResponse.getRole().toString(),User.Role.USER.toString());
-        assertEquals(validDepartment.getDepartmentId(),userResponse.getDepartmentId());
+        assertEquals(userResponse.getRole(),User.Role.USER.toString());
+        assertEquals(validDepartment,userResponse.getDepartmentId());
     }
 
     @Test
