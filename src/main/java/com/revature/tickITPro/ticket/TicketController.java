@@ -1,10 +1,14 @@
 package com.revature.tickITPro.ticket;
 
+import com.revature.tickITPro.ticket.dto.Requests.EditTicketRequest;
+import com.revature.tickITPro.ticket.dto.Requests.NewTicketRequest;
 import com.revature.tickITPro.ticket.dto.Responses.TicketResponse;
 import com.revature.tickITPro.util.web.Secured;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -53,6 +57,26 @@ public class TicketController {
     @Secured
     public List<TicketResponse> getAllByStatus(@PathVariable String status) {
         return ticketService.findByStatus(status.toUpperCase());
+    }
+
+    @PostMapping
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @Secured
+    public TicketResponse createTicket(@RequestBody @Valid NewTicketRequest ticketRequest) {
+        return ticketService.addTicket(ticketRequest);
+    }
+
+    @PutMapping
+    @Secured
+    public TicketResponse updateTicket(@RequestBody EditTicketRequest ticketRequest) {
+        return ticketService.update(ticketRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    @Secured
+    public String removeTicket(@PathVariable String id) {
+        ticketService.remove(id);
+        return "Ticket with id \'" + id + "\' has been deleted";
     }
 
 }
