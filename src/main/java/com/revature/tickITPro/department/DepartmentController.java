@@ -33,7 +33,7 @@ public class DepartmentController {
     public DepartmentResponse findByIdQuery(@RequestParam String id) {return departmentService.findById(id);}
 
     @PostMapping
-//    @Secured(isAdmin = true)
+    @Secured(isAdmin = true)
     @ResponseStatus(value = HttpStatus.CREATED)
     public DepartmentResponse register(@RequestBody @Valid NewDepartmentRequest newDepartmentRequest){
         return departmentService.createDepartment(newDepartmentRequest);
