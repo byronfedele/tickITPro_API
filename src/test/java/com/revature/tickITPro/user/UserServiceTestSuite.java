@@ -103,7 +103,7 @@ public class UserServiceTestSuite {
         for (User testUser : invalidUserList) {
             try {
                 sut.isUserValid(testUser);
-                //fail("invalid user verified as valid user");
+                fail("invalid user verified as valid user");
             } catch (InvalidUserInputException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {
@@ -145,7 +145,7 @@ public class UserServiceTestSuite {
         } catch (InvalidUserInputException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {
-            //fail("Unhandled Exception");
+            fail("Unhandled Exception");
         }
     }
 
@@ -161,7 +161,7 @@ public class UserServiceTestSuite {
         } catch (ResourceNotFoundException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {
-            //fail("Unhandled Exception");
+            fail("Unhandled Exception");
         }
     }
 

@@ -28,7 +28,6 @@ public class UserService {
     private final DepartmentService departmentService;
     private User sessionUser;
     @Value("${jwt.secret}")
-
     private String passwordHash;
 
     @Autowired
@@ -41,8 +40,14 @@ public class UserService {
     public UserResponse registerUser(NewUserRequest newUserRequest) throws InvalidUserInputException, ResourcePersistanceException {
         isEmailAvailable(newUserRequest.getEmail());
 
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10,new SecureRandom(passwordHash.getBytes()));
-        newUserRequest.setPassword(passwordEncoder.encode(newUserRequest.getPassword()));
+        if(passwordHash != null) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10,new SecureRandom(passwordHash.getBytes()));
+            newUserRequest.setPassword(passwordEncoder.encode(newUserRequest.getPassword()));
+        }
+
+
+
+
 
 
 
@@ -150,13 +155,14 @@ public class UserService {
     public boolean isUserValid(User testUser) {
         Predicate<String> notNullOrEmpty = (str) -> str != null && !str.trim().equals("");
         if (testUser == null) throw new InvalidUserInputException("Inputted user was null");
-//        if (testUser.getDepartmentId() == null) throw new InvalidUserInputException("Department associated with inputted user was null");
+        if (testUser.getDepartment()== null) throw new InvalidUserInputException("Department associated with inputted user was null");
         if (!notNullOrEmpty.test(testUser.getUserId())) throw new InvalidUserInputException("Inputted userId was empty or null");
         if (!notNullOrEmpty.test(testUser.getEmail())) throw new InvalidUserInputException("Inputted email was empty or null");
         if (!notNullOrEmpty.test(testUser.getFirstName())) throw new InvalidUserInputException("Inputted first name was empty or null");
         if (!notNullOrEmpty.test(testUser.getLastName())) throw new InvalidUserInputException("Inputted last name was empty or null");
         if (!notNullOrEmpty.test(testUser.getPassword())) throw new InvalidUserInputException("Inputted password was empty or null");
         areEnumsValid(testUser);
+        System.out.println(testUser);
         return true;
     }
 
