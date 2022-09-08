@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ticket")
-@CrossOrigin(exposedHeaders = "Authorization")
+@CrossOrigin
 public class TicketController {
 
     private final TicketService ticketService;

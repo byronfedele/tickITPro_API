@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/department")
-@CrossOrigin(exposedHeaders = "Authorization")
+@CrossOrigin
 public class DepartmentController {
 
     private final DepartmentService departmentService;
