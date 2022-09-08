@@ -14,7 +14,7 @@ public class UserResponse {
     private String firstName;
     private String lastName;
     private String role;
-    private String departmentId;
+    private Department departmentId;
 
     public UserResponse(User user) {
         this.userId = user.getUserId();
@@ -22,6 +22,6 @@ public class UserResponse {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.role = user.getRole().toString();
-        this.departmentId = user.getDepartmentId().getDepartmentId();
+        this.departmentId = user.getDepartmentId();
     }
 }

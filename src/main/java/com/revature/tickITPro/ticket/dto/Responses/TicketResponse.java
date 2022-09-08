@@ -1,12 +1,10 @@
 package com.revature.tickITPro.ticket.dto.Responses;
 
-import com.revature.tickITPro.subject.Subject;
 import com.revature.tickITPro.ticket.Ticket;
-import com.revature.tickITPro.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.sql.Date;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +13,7 @@ public class TicketResponse {
     String description;
     String priority;
     String status;
-    Date date;
+    Date submissionDate;
     String userId;
     String proId;
     String subjectId;
@@ -25,10 +23,10 @@ public class TicketResponse {
         this.description = ticket.getDescription();
         this.priority = ticket.getPriority().toString();
         this.status = ticket.getStatus().toString();
-        this.date = ticket.getDate();
-        this.userId = ticket.getUserId().getUserId();
-        this.proId = ticket.getProUserId().getUserId();
-        this.subjectId = ticket.getSubjectId().getSubjectId();
+        this.submissionDate = ticket.getSubmissionDate();
+        this.userId = ticket.getReqUser().getUserId();
+        if (ticket.getProUser() != null) this.proId = ticket.getProUser().getUserId();
+        this.subjectId = ticket.getSubject().getSubjectId();
     }
 }
 
