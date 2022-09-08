@@ -28,6 +28,7 @@ public class UserService {
     private final DepartmentService departmentService;
     private User sessionUser;
     @Value("${jwt.secret}")
+
     private String passwordHash;
 
     @Autowired
@@ -42,6 +43,8 @@ public class UserService {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10,new SecureRandom(passwordHash.getBytes()));
         newUserRequest.setPassword(passwordEncoder.encode(newUserRequest.getPassword()));
+
+
 
         User newUser = new User(newUserRequest);
         if (newUserRequest.getDepartmentId() != null) newUser.setDepartment(departmentService.getDepartment(newUserRequest.getDepartmentId()));
