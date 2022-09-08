@@ -38,13 +38,13 @@ public class User {
     private Role role;       // this role is coming from our Role Enum  (careful not to import Java's Role)
     @ManyToOne                              // think: Many users To One department (meaning 2 diff users can come from the same department)
     @JoinColumn(name = "department_id")
-    private Department departmentId;
+    private Department department;
     // list of tickets that this user created (regular users)
-    @OneToMany(mappedBy="userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="reqUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Transient
     private List<Ticket> createdTicketList;
     // list of tickets that this user confirmed (ITPro users)
-    @OneToMany(mappedBy="proUserId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="proUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Transient
     private List<Ticket> confirmedTicketList;
 

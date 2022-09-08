@@ -33,7 +33,7 @@ public class TicketService {
         if(testTicket.getReqUser() == null || testTicket.getReqUser().equals("")) throw new InvalidUserInputException("Requested User ID was empty or null");
         if(testTicket.getSubject() == null || testTicket.getSubject().equals("")) throw new InvalidUserInputException("Subject ID was empty or null");
         areEnumsValid(testTicket);
-        if(!testTicket.getStatus().toString().equals("PENDING")) throw new InvalidUserInputException("ITPro User ID was empty or null");
+        if(!testTicket.getStatus().toString().equals("PENDING") && testTicket.getProUser() == null) throw new InvalidUserInputException("ITPro User ID was empty or null");
         return true;
     }
     @Transactional
@@ -115,11 +115,11 @@ public class TicketService {
         if (notNullOrEmpty.test(editTicket.getProUserId())) updateTicket.setProUser(userService.getUser(editTicket.getProUserId()));
         if (notNullOrEmpty.test(editTicket.getPriority())) {
             arePriorityEnumsValid(editTicket.getPriority());
-            updateTicket.setPriority(Ticket.Priority.valueOf(editTicket.getPriority()));
+            updateTicket.setPriority(Ticket.Priority.valueOf(editTicket.getPriority().toUpperCase()));
         }
         if (notNullOrEmpty.test(editTicket.getStatus())) {
             areStatusEnumsValid(editTicket.getStatus());
-            updateTicket.setStatus(Ticket.Status.valueOf(editTicket.getStatus()));
+            updateTicket.setStatus(Ticket.Status.valueOf(editTicket.getStatus().toUpperCase()));
         }
         isTicketValid(updateTicket);
         return new TicketResponse(ticketRepository.save(updateTicket));
@@ -138,7 +138,7 @@ public class TicketService {
     public boolean arePriorityEnumsValid(String ticketPriority) throws InvalidUserInputException {
         List<String> priorityEnums = Arrays.asList("DEFAULT","LOW_PRIORITY","HIGH_PRIORITY");
         List<Boolean> checkPriorityEnums = priorityEnums.stream()
-                .map(str -> str.equals(ticketPriority))
+                .map(str -> str.equals(ticketPriority.toUpperCase()))
                 .collect(Collectors.toList());
         if(!checkPriorityEnums.contains(true)){
             throw new InvalidUserInputException(
@@ -152,7 +152,7 @@ public class TicketService {
     public boolean areStatusEnumsValid(String ticketStatus) throws InvalidUserInputException {
         List<String> statusEnums = Arrays.asList("PENDING","CONFIRMED","RESOLVED");
         List<Boolean> checkStatusEnums = statusEnums.stream()
-                .map(str -> str.equals(ticketStatus))
+                .map(str -> str.equals(ticketStatus.toUpperCase()))
                 .collect(Collectors.toList());
         if(!checkStatusEnums.contains(true)){
             throw new InvalidUserInputException(

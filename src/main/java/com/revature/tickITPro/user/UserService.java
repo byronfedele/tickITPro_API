@@ -1,8 +1,6 @@
 package com.revature.tickITPro.user;
 
-import com.revature.tickITPro.department.Department;
 import com.revature.tickITPro.department.DepartmentService;
-import com.revature.tickITPro.ticket.dto.Requests.NewTicketRequest;
 import com.revature.tickITPro.user.dto.request.EditUserRequest;
 import com.revature.tickITPro.user.dto.request.NewUserRequest;
 import com.revature.tickITPro.user.dto.response.UserResponse;
@@ -46,7 +44,7 @@ public class UserService {
         newUserRequest.setPassword(passwordEncoder.encode(newUserRequest.getPassword()));
 
         User newUser = new User(newUserRequest);
-        if (newUserRequest.getDepartmentId() != null) newUser.setDepartmentId(departmentService.getDepartment(newUserRequest.getDepartmentId()));
+        if (newUserRequest.getDepartmentId() != null) newUser.setDepartment(departmentService.getDepartment(newUserRequest.getDepartmentId()));
         isUserValid(newUser);
         return new UserResponse(userRepository.save(newUser));
     }
@@ -109,7 +107,7 @@ public class UserService {
             areEnumsValid(editUser);
             updateUser.setRole(User.Role.valueOf(editUser.getRole()));
         }
-        if (notNullOrEmpty.test(editUser.getDepartmentId())) updateUser.setDepartmentId(departmentService.getDepartment(editUser.getDepartmentId()));
+        if (notNullOrEmpty.test(editUser.getDepartmentId())) updateUser.setDepartment(departmentService.getDepartment(editUser.getDepartmentId()));
         if (notNullOrEmpty.test(editUser.getEmail())) {
             isEmailAvailable(editUser.getEmail());
             updateUser.setEmail(editUser.getEmail());

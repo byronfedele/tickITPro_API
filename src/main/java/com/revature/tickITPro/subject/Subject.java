@@ -19,7 +19,7 @@ public class Subject {
     private String subjectId;
     @Column(name="subject_name", nullable = false, unique = true)
     private String name;
-    @OneToMany(mappedBy = "subjectId", cascade= CascadeType.ALL)
+    @OneToMany(mappedBy = "subject", cascade= CascadeType.ALL)
     private List<Ticket> ticketList;
     public Subject(NewSubjectRequest newSubjectRequest){
         this.subjectId = UUID.randomUUID().toString();

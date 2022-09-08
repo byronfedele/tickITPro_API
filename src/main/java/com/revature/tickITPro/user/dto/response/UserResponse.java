@@ -22,6 +22,6 @@ public class UserResponse {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.role = user.getRole().toString();
-        this.departmentId = user.getDepartmentId();
+        this.departmentId = user.getDepartment();
     }
 }

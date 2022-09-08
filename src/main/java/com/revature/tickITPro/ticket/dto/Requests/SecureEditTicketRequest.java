@@ -14,6 +14,7 @@ public class SecureEditTicketRequest extends EditResourceRequest {
     private String status;
 
     public SecureEditTicketRequest(EditTicketRequest editRequest) {
+        this.id = editRequest.getId();
         this.subjectId = editRequest.getSubjectId();
         this.description = editRequest.getDescription();
         this.priority = editRequest.getPriority();
