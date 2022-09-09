@@ -64,6 +64,7 @@ public class UserService {
         //password = passwordEncoder.encode(password);
         User user = userRepository.checkEmail(email).orElseThrow(ResourceNotFoundException::new);
         if(passwordEncoder.matches(password,user.getPassword())){
+            setSessionUser(user);
             return user;
         }
         else throw new InvalidUserInputException("Incorrect login");
