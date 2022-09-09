@@ -101,7 +101,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.revature.tickITPro.MainDriver</mainClass>
+							<mainClass>com.revature.tickITPro.TickItProApplication</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
