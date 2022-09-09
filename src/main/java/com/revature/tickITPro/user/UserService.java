@@ -45,12 +45,6 @@ public class UserService {
             newUserRequest.setPassword(passwordEncoder.encode(newUserRequest.getPassword()));
         }
 
-
-
-
-
-
-
         User newUser = new User(newUserRequest);
         if (newUserRequest.getDepartmentId() != null) newUser.setDepartment(departmentService.getDepartment(newUserRequest.getDepartmentId()));
         isUserValid(newUser);
