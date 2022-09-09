@@ -33,26 +33,26 @@ public class Ticket {
     private Status status;
 
     @Column(name = "submission_date", nullable = false)
-    private Date date;
+    private Date submissionDate;
 
     @ManyToOne
     @JoinColumn(name = "req_user_id")
-    private User userId;
+    private User reqUser;
 
     @ManyToOne
     @JoinColumn(name = "pro_user_id")
-    private User proUserId;
+    private User proUser;
 
     @ManyToOne
     @JoinColumn(name = "subject_id")
-    private Subject subjectId;
+    private Subject subject;
 
     public Ticket(NewTicketRequest newTicketRequest){
         this.ticketId = UUID.randomUUID().toString();
         this.description = newTicketRequest.getDescription();
         this.priority = Priority.valueOf(newTicketRequest.getPriority().toUpperCase());
         this.status = Status.PENDING;
-        this.date = new Date(System.currentTimeMillis());
+        this.submissionDate = new Date(System.currentTimeMillis());
     }
 
 

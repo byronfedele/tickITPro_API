@@ -26,7 +26,7 @@ public class SubjectService {
         this.subjectRepository = subjectRepository;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public SubjectResponse createSubject(NewSubjectRequest newSubjectRequest) throws InvalidUserInputException, ResourcePersistanceException {
         Subject newSubject = new Subject(newSubjectRequest);
         isSubjectValid(newSubject);

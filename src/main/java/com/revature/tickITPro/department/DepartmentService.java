@@ -26,7 +26,7 @@ public class DepartmentService {
         this.departmentRepository = departmentRepository;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public DepartmentResponse createDepartment(NewDepartmentRequest newDepartmentRequest) throws InvalidUserInputException, ResourcePersistanceException {
         Department newDepartment = new Department(newDepartmentRequest);
         isDepartmentValid(newDepartment);

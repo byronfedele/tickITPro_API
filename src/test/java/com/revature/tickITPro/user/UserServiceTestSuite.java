@@ -39,7 +39,7 @@ public class UserServiceTestSuite {
         NewUserRequest userRequest = new NewUserRequest("fName","lName","valid@mail.com","GreatPass#33","");
         NewDepartmentRequest departmentRequest = new NewDepartmentRequest("departmentName");
         User validUser = new User(userRequest);
-        validUser.setDepartmentId(new Department(departmentRequest));
+        validUser.setDepartment(new Department(departmentRequest));
 
         boolean actualResult = sut.isUserValid(validUser);
 
@@ -56,34 +56,34 @@ public class UserServiceTestSuite {
         User invalidUser1 = null;
         User invalidUser2 = new User(userRequest);
         User invalidUser3 = new User(userRequest);
-        invalidUser3.setDepartmentId(validDepartment);
+        invalidUser3.setDepartment(validDepartment);
         invalidUser3.setUserId(null);
         User invalidUser4 = new User(userRequest);
-        invalidUser4.setDepartmentId(validDepartment);
+        invalidUser4.setDepartment(validDepartment);
         invalidUser4.setEmail(null);
         User invalidUser5 = new User(userRequest);
-        invalidUser5.setDepartmentId(validDepartment);
-        invalidUser5.setFName(null);
+        invalidUser5.setDepartment(validDepartment);
+        invalidUser5.setFirstName(null);
         User invalidUser6 = new User(userRequest);
-        invalidUser6.setDepartmentId(validDepartment);
-        invalidUser6.setLName(null);
+        invalidUser6.setDepartment(validDepartment);
+        invalidUser6.setLastName(null);
         User invalidUser7 = new User(userRequest);
-        invalidUser7.setDepartmentId(validDepartment);
+        invalidUser7.setDepartment(validDepartment);
         invalidUser7.setPassword(null);
         User invalidUser8 = new User(userRequest);
-        invalidUser8.setDepartmentId(validDepartment);
+        invalidUser8.setDepartment(validDepartment);
         invalidUser8.setUserId(" ");
         User invalidUser9 = new User(userRequest);
-        invalidUser9.setDepartmentId(validDepartment);
+        invalidUser9.setDepartment(validDepartment);
         invalidUser9.setEmail(" ");
         User invalidUser10 = new User(userRequest);
-        invalidUser10.setDepartmentId(validDepartment);
-        invalidUser10.setFName(" ");
+        invalidUser10.setDepartment(validDepartment);
+        invalidUser10.setFirstName(" ");
         User invalidUser11 = new User(userRequest);
-        invalidUser11.setDepartmentId(validDepartment);
-        invalidUser11.setLName(" ");
+        invalidUser11.setDepartment(validDepartment);
+        invalidUser11.setLastName(" ");
         User invalidUser12 = new User(userRequest);
-        invalidUser12.setDepartmentId(validDepartment);
+        invalidUser12.setDepartment(validDepartment);
         invalidUser12.setPassword(" ");
 
 
@@ -117,7 +117,7 @@ public class UserServiceTestSuite {
         Department validDepartment = new Department(new NewDepartmentRequest("departmentName"));
         NewUserRequest userRequest = new NewUserRequest("fName","lName","valid@mail.com","GreatPass#33", validDepartment.getDepartmentId());
         User validUser = new User(userRequest);
-        validUser.setDepartmentId(validDepartment);
+        validUser.setDepartment(validDepartment);
 
 
         when(userRepository.save(any(User.class))).thenReturn(validUser);
@@ -126,8 +126,8 @@ public class UserServiceTestSuite {
         UserResponse userResponse = sut.registerUser(userRequest);
 
         assertEquals(userRequest.getEmail(),userResponse.getEmail());
-        assertEquals(userRequest.getFName(),userResponse.getFName());
-        assertEquals(userRequest.getLName(),userResponse.getLName());
+        assertEquals(userRequest.getFirstName(),userResponse.getFirstName());
+        assertEquals(userRequest.getLastName(),userResponse.getLastName());
         assertEquals(userResponse.getRole(),User.Role.USER.toString());
         assertEquals(validDepartment,userResponse.getDepartmentId());
     }

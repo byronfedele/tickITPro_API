@@ -28,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
     public Principal authorizeUser(@RequestBody LoginCreds loginCreds, HttpServletResponse resp){
         User authUser = userService.login(loginCreds.getEmail(),  loginCreds.getPassword());
         Principal payload = new Principal(authUser);
@@ -40,7 +40,7 @@ public class AuthController {
     @DeleteMapping
     public void logout(HttpServletResponse resp){
         userService.logout();
-        resp.setHeader("Authorization",null);
+        resp.setHeader("Authorization","");
     }
 
 }
