@@ -14,9 +14,9 @@ public class TicketResponse {
     String priority;
     String status;
     Date submissionDate;
-    String userId;
-    String proId;
-    String subjectId;
+    String userEmail;
+    String proEmail;
+    String subjectName;
 
     public TicketResponse(Ticket ticket){
         this.ticketId = ticket.getTicketId();
@@ -24,9 +24,9 @@ public class TicketResponse {
         this.priority = ticket.getPriority().toString();
         this.status = ticket.getStatus().toString();
         this.submissionDate = ticket.getSubmissionDate();
-        this.userId = ticket.getReqUser().getUserId();
-        if (ticket.getProUser() != null) this.proId = ticket.getProUser().getUserId();
-        this.subjectId = ticket.getSubject().getSubjectId();
+        this.userEmail = ticket.getReqUser().getEmail();
+        if (ticket.getProUser() != null) this.proEmail = ticket.getProUser().getEmail();
+        this.subjectName = ticket.getSubject().getName();
     }
 }
 
