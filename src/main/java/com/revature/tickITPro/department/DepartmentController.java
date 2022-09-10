@@ -21,11 +21,9 @@ public class DepartmentController {
     public DepartmentController(DepartmentService departmentService){this.departmentService = departmentService;}
 
     @GetMapping
-    @Secured(isAdmin = true)
     public List<DepartmentResponse> findAll(){return departmentService.findAllDepartments();}
 
     @GetMapping("/{id}")
-    @Secured
     public DepartmentResponse findById(@PathVariable String id) {return departmentService.findById(id);}
 
     @GetMapping("/query")
@@ -33,7 +31,7 @@ public class DepartmentController {
     public DepartmentResponse findByIdQuery(@RequestParam String id) {return departmentService.findById(id);}
 
     @PostMapping
-//    @Secured(isAdmin = true)
+    @Secured(isAdmin = true)
     @ResponseStatus(value = HttpStatus.CREATED)
     public DepartmentResponse register(@RequestBody @Valid NewDepartmentRequest newDepartmentRequest){
         return departmentService.createDepartment(newDepartmentRequest);
