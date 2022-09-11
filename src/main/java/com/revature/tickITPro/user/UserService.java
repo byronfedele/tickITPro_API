@@ -45,12 +45,6 @@ public class UserService {
             newUserRequest.setPassword(passwordEncoder.encode(newUserRequest.getPassword()));
         }
 
-
-
-
-
-
-
         User newUser = new User(newUserRequest);
         if (newUserRequest.getDepartmentId() != null) newUser.setDepartment(departmentService.getDepartment(newUserRequest.getDepartmentId()));
         isUserValid(newUser);
@@ -67,10 +61,14 @@ public class UserService {
     @Transactional
     public User login(String email, String password){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10, new SecureRandom(passwordHash.getBytes()));
-        password = passwordEncoder.encode(password);
-        User user = userRepository.loginCredentialCheck(email, password).orElseThrow(ResourceNotFoundException::new);
-        setSessionUser(user);
-        return user;
+        //password = passwordEncoder.encode(password);
+        User user = userRepository.checkEmail(email).orElseThrow(ResourceNotFoundException::new);
+        if(passwordEncoder.matches(password,user.getPassword())){
+            setSessionUser(user);
+            return user;
+        }
+        else throw new InvalidUserInputException("Incorrect login");
+
     }
 
     public void logout(){
