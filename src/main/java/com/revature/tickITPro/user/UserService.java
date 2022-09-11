@@ -108,7 +108,10 @@ public class UserService {
 
         if (notNullOrEmpty.test(editUser.getFirstName())) updateUser.setFirstName(editUser.getFirstName());
         if (notNullOrEmpty.test(editUser.getLastName())) updateUser.setLastName(editUser.getLastName());
-        if (notNullOrEmpty.test(editUser.getPassword())) updateUser.setPassword(editUser.getPassword());
+        if (notNullOrEmpty.test(editUser.getPassword())) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10, new SecureRandom(passwordHash.getBytes()));
+            updateUser.setPassword(passwordEncoder.encode(editUser.getPassword()));
+        }
         if (notNullOrEmpty.test(editUser.getRole())) {
             areEnumsValid(editUser);
             updateUser.setRole(User.Role.valueOf(editUser.getRole()));
