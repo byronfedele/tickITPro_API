@@ -11,17 +11,17 @@ public class UserResponse {
 
     private String userId;
     private String email;
-    private String fName;
-    private String lName;
+    private String firstName;
+    private String lastName;
     private String role;
-    private Department departmentId;
+    private String departmentId;
 
     public UserResponse(User user) {
         this.userId = user.getUserId();
         this.email = user.getEmail();
-        this.fName = user.getFName();
-        this.lName = user.getLName();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
         this.role = user.getRole().toString();
-        this.departmentId = user.getDepartmentId();
+        this.departmentId = user.getDepartment().getDepartmentId();
     }
 }

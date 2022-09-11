@@ -16,9 +16,9 @@ import javax.validation.constraints.*;
 public class NewUserRequest {
 
     @NotEmpty(message = "First Name cannot be empty")
-    private String fName;
+    private String firstName;
     @NotEmpty(message = "Last Name cannot be empty")
-    private String lName;
+    private String lastName;
     @NotEmpty(message = "Email cannot be empty")
     @Email(message = "Please provide a valid email")
     private String email;

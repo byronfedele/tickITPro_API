@@ -26,6 +26,7 @@ public class ErrorExceptionAspect {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleGeneralException(Exception e){
+        e.printStackTrace();
         return "Error occured in program, check log for more detail" + e.getClass().getName() + " with message: " + e.getMessage();
     }
 

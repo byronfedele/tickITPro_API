@@ -23,7 +23,7 @@ public class Department {
     @Column(nullable = false, name = "department_name")
     private String departmentName;
 
-    @OneToMany(mappedBy="departmentId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="department", cascade = CascadeType.ALL)
     @Transient
     private List<User> userList;
 

@@ -1,8 +1,6 @@
 package com.revature.tickITPro.user;
 
-import com.revature.tickITPro.department.Department;
 import com.revature.tickITPro.department.DepartmentService;
-import com.revature.tickITPro.ticket.dto.Requests.NewTicketRequest;
 import com.revature.tickITPro.user.dto.request.EditUserRequest;
 import com.revature.tickITPro.user.dto.request.NewUserRequest;
 import com.revature.tickITPro.user.dto.response.UserResponse;
@@ -38,15 +36,23 @@ public class UserService {
         this.departmentService = departmentService;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public UserResponse registerUser(NewUserRequest newUserRequest) throws InvalidUserInputException, ResourcePersistanceException {
         isEmailAvailable(newUserRequest.getEmail());
 
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10,new SecureRandom(passwordHash.getBytes()));
-        newUserRequest.setPassword(passwordEncoder.encode(newUserRequest.getPassword()));
+        if(passwordHash != null) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10,new SecureRandom(passwordHash.getBytes()));
+            newUserRequest.setPassword(passwordEncoder.encode(newUserRequest.getPassword()));
+        }
+
+
+
+
+
+
 
         User newUser = new User(newUserRequest);
-        if (newUserRequest.getDepartmentId() != null) newUser.setDepartmentId(departmentService.getDepartment(newUserRequest.getDepartmentId()));
+        if (newUserRequest.getDepartmentId() != null) newUser.setDepartment(departmentService.getDepartment(newUserRequest.getDepartmentId()));
         isUserValid(newUser);
         return new UserResponse(userRepository.save(newUser));
     }
@@ -67,7 +73,6 @@ public class UserService {
         return user;
     }
 
-    @Transactional
     public void logout(){
         setSessionUser(null);
     }
@@ -103,14 +108,14 @@ public class UserService {
         User updateUser = userRepository.findById(editUser.getId()).orElseThrow(ResourceNotFoundException::new);
         Predicate<String> notNullOrEmpty = (str) -> str != null && !str.trim().equals("");
 
-        if (notNullOrEmpty.test(editUser.getFName())) updateUser.setFName(editUser.getFName());
-        if (notNullOrEmpty.test(editUser.getLName())) updateUser.setLName(editUser.getLName());
+        if (notNullOrEmpty.test(editUser.getFirstName())) updateUser.setFirstName(editUser.getFirstName());
+        if (notNullOrEmpty.test(editUser.getLastName())) updateUser.setLastName(editUser.getLastName());
         if (notNullOrEmpty.test(editUser.getPassword())) updateUser.setPassword(editUser.getPassword());
         if (notNullOrEmpty.test(editUser.getRole())) {
             areEnumsValid(editUser);
             updateUser.setRole(User.Role.valueOf(editUser.getRole()));
         }
-        if (notNullOrEmpty.test(editUser.getDepartmentId())) updateUser.setDepartmentId(departmentService.getDepartment(editUser.getDepartmentId()));
+        if (notNullOrEmpty.test(editUser.getDepartmentId())) updateUser.setDepartment(departmentService.getDepartment(editUser.getDepartmentId()));
         if (notNullOrEmpty.test(editUser.getEmail())) {
             isEmailAvailable(editUser.getEmail());
             updateUser.setEmail(editUser.getEmail());
@@ -147,26 +152,24 @@ public class UserService {
         return true;
     }
 
-    @Transactional
     public boolean isUserValid(User testUser) {
         Predicate<String> notNullOrEmpty = (str) -> str != null && !str.trim().equals("");
         if (testUser == null) throw new InvalidUserInputException("Inputted user was null");
-//        if (testUser.getDepartmentId() == null) throw new InvalidUserInputException("Department associated with inputted user was null");
+        if (testUser.getDepartment()== null) throw new InvalidUserInputException("Department associated with inputted user was null");
         if (!notNullOrEmpty.test(testUser.getUserId())) throw new InvalidUserInputException("Inputted userId was empty or null");
         if (!notNullOrEmpty.test(testUser.getEmail())) throw new InvalidUserInputException("Inputted email was empty or null");
-        if (!notNullOrEmpty.test(testUser.getFName())) throw new InvalidUserInputException("Inputted first name was empty or null");
-        if (!notNullOrEmpty.test(testUser.getLName())) throw new InvalidUserInputException("Inputted last name was empty or null");
+        if (!notNullOrEmpty.test(testUser.getFirstName())) throw new InvalidUserInputException("Inputted first name was empty or null");
+        if (!notNullOrEmpty.test(testUser.getLastName())) throw new InvalidUserInputException("Inputted last name was empty or null");
         if (!notNullOrEmpty.test(testUser.getPassword())) throw new InvalidUserInputException("Inputted password was empty or null");
         areEnumsValid(testUser);
+        System.out.println(testUser);
         return true;
     }
 
-    @Transactional
     public void setSessionUser(User sessionUser) {
         this.sessionUser = sessionUser;
     }
 
-    @Transactional
     public User getSessionUser() {
         return sessionUser;
     }

@@ -1,6 +1,7 @@
 package com.revature.tickITPro.ticket;
 
 import com.revature.tickITPro.ticket.dto.Requests.EditTicketRequest;
+import com.revature.tickITPro.ticket.dto.Requests.SecureEditTicketRequest;
 import com.revature.tickITPro.ticket.dto.Requests.NewTicketRequest;
 import com.revature.tickITPro.ticket.dto.Responses.TicketResponse;
 import com.revature.tickITPro.util.web.Secured;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ticket")
-@CrossOrigin(exposedHeaders = "Authorization")
+@CrossOrigin
 public class TicketController {
 
     private final TicketService ticketService;
@@ -23,22 +24,29 @@ public class TicketController {
         this.ticketService = ticketService;
     }
 
+    // Only ITPro Users can view ALL tickets
     @GetMapping
     @Secured(isITPro = true)
     public List<TicketResponse> findAll() {
         return ticketService.findAllTickets();
     }
 
-    @GetMapping("/creator/{id}")
+    @GetMapping("/{id}")
     @Secured
-    public List<TicketResponse> findAllByCreatorId(@PathVariable String id) {
-        return ticketService.findByCreatorId(id);
+    public TicketResponse findById(@PathVariable String id) {
+        return ticketService.findById(id);
+    }
+
+    @GetMapping("/requser/{id}")
+    @Secured
+    public List<TicketResponse> findAllByReqUserId(@PathVariable String id) {
+        return ticketService.findByReqUserId(id);
     }
 
     @GetMapping("/itpro/{id}")
     @Secured
     public List<TicketResponse> getAllByITProId(@PathVariable String id) {
-        return ticketService.findByItProId(id);
+        return ticketService.findByITProId(id);
     }
 
     @GetMapping("/subject/{id}")
@@ -59,6 +67,7 @@ public class TicketController {
         return ticketService.findByStatus(status.toUpperCase());
     }
 
+    // All Users can create a new Ticket
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     @Secured
@@ -66,14 +75,22 @@ public class TicketController {
         return ticketService.addTicket(ticketRequest);
     }
 
-    @PutMapping
-    @Secured
-    public TicketResponse updateTicket(@RequestBody EditTicketRequest ticketRequest) {
+    // ITPro Users can update all aspects of a Ticket {proUserId, subjectId, description, priority, status}
+    @PutMapping("/secure")
+    @Secured(isITPro = true)
+    public TicketResponse secureUpdateTicket(@RequestBody SecureEditTicketRequest ticketRequest) {
         return ticketService.update(ticketRequest);
     }
 
-    @DeleteMapping("/{id}")
+    // Normal Users can only update 3 aspects of a Ticket {subjectId, description, priority}
+    @PutMapping
     @Secured
+    public TicketResponse updateTicket(@RequestBody EditTicketRequest ticketRequest) {
+        return ticketService.update(new SecureEditTicketRequest(ticketRequest));
+    }
+
+    @DeleteMapping("/{id}")
+    @Secured(isAdmin = true)
     public String removeTicket(@PathVariable String id) {
         ticketService.remove(id);
         return "Ticket with id \'" + id + "\' has been deleted";

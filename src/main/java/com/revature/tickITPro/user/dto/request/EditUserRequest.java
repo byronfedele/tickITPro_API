@@ -10,8 +10,8 @@ public class EditUserRequest extends EditResourceRequest {
 
     private String email;
     private String password;
-    private String fName;
-    private String lName;
+    private String firstName;
+    private String lastName;
     private String role;               // admin should be able to update user roles
     private String departmentId;
 
