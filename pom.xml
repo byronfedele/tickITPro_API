@@ -11,7 +11,7 @@
 
 	<groupId>com.revature</groupId>
 	<artifactId>tickITPro</artifactId>
-	<version>0.1.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>tickITPro</name>
 	<description>Project 2: IT Ticketing API</description>
 

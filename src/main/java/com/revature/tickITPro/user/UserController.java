@@ -58,14 +58,7 @@ public class UserController {
     @PutMapping
     @Secured
     public UserResponse updateSessionUser(@RequestBody EditUserRequest editUserRequest){
-        User sessionUser = userService.getSessionUser();
-
-        if (sessionUser != null) {
-            editUserRequest.setId(sessionUser.getUserId());
-            return userService.update(editUserRequest);
-        } else {
-            throw new InvalidUserInputException("You must be logged in to update your account");
-        }
+        return userService.update(editUserRequest);
     }
 
     // Users that aren't ADMIN should only be able to delete their own accounts
